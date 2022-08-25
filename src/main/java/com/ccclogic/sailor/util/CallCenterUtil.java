@@ -6,7 +6,7 @@ import com.ccclogic.sailor.config.security.TenantContext;
 public class CallCenterUtil {
 	
 	public static String generateCallCenterSchemaNameById(Long ccid){
-		return "cc_"+ccid;
+		return "tenant_"+ccid;
 	}
 	
 	public static void setCCSchemaInContext(String ccId){

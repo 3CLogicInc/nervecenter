@@ -19,13 +19,14 @@ import com.ccclogic.sailor.util.logger.Info;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Longs;
 import io.micrometer.core.instrument.util.StringUtils;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.firewall.RequestRejectedException;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -34,12 +35,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Data
+@Slf4j
 public class ApplicationFilter extends OncePerRequestFilter {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
+    private String[] excludeUrls = null;
+    private String[] includeUrls = null;
     private ErrorCodeMessages errorCodeMessages;
-    private String[] excludeCcIdUrls = null;
 
     public ApplicationFilter(ErrorCodeMessages errorCodeMessages) {
         this.errorCodeMessages = errorCodeMessages;
@@ -47,7 +49,7 @@ public class ApplicationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String ccId = RequestUtil.parseFromPath(request.getPathInfo()).get("callcenters");
+        String ccId = RequestUtil.parseFromPath(request.getRequestURI()).get("callcenters");
         try {
             //  If request is OPTIONS, let it pass through. CCId can be null for admin/supervisor.
             if (!StringUtils.isBlank(ccId) && !HttpMethod.OPTIONS.toString().equalsIgnoreCase(request.getMethod())) {
@@ -60,7 +62,7 @@ public class ApplicationFilter extends OncePerRequestFilter {
                     throw new ResourceNotFoundException(CallCenterErrorCodes.callCenterNoFound);
                 }
 
-                logger.info("setting schema context for ccid :: " + ccId);
+                log.info("setting schema context for ccid :: " + ccId);
                 CallCenterUtil.setCCSchemaInContext(ccId);
                 CallCenterUtil.setCCIdInContext(ccId);
             }
@@ -98,7 +100,7 @@ public class ApplicationFilter extends OncePerRequestFilter {
     private void flushErrorMessage(HttpServletRequest request, HttpServletResponse response,
                                    int responseStatus, Exception ex, ErrorResponse errorResponse) {
         try {
-            logger.error(errorCodeMessages.getMessage(ex.getMessage()), ex);
+            log.error(errorCodeMessages.getMessage(ex.getMessage()), ex);
             if (errorResponse == null) {
                 if (!StringUtil.isValid(ex.getMessage())) {
                     errorResponse = new ErrorResponse(GenericErrorCodes.unknowError, errorCodeMessages.getMessage(GenericErrorCodes.unknowError));
@@ -118,7 +120,7 @@ public class ApplicationFilter extends OncePerRequestFilter {
             response.setStatus(responseStatus);
             response.flushBuffer();
         } catch (Exception e) {
-            logger.error("Error while flushing error message", e);
+            log.error("Error while flushing error message", e);
             ErrorResponse unknownErrorResponse = new ErrorResponse(GenericErrorCodes.unknowError,
                     errorCodeMessages.getMessage(GenericErrorCodes.unknowError));
             try {
@@ -127,10 +129,29 @@ public class ApplicationFilter extends OncePerRequestFilter {
                 response.setStatus(responseStatus);
                 response.flushBuffer();
             } catch (IOException e1) {
-                logger.error("Error while flushing error message", e);
+                log.error("Error while flushing error message", e);
             }
         }
 
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        if (excludeUrls != null) {
+            for (String urlRegex : includeUrls) {
+                AntPathRequestMatcher antPathRequestMatcher = new AntPathRequestMatcher(urlRegex);
+                if (antPathRequestMatcher.matches(request)) {
+                    return false;
+                }
+            }
+            for (String urlRegex : excludeUrls) {
+                AntPathRequestMatcher antPathRequestMatcher = new AntPathRequestMatcher(urlRegex);
+                if (antPathRequestMatcher.matches(request)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

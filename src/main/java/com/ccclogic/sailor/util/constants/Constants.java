@@ -5,8 +5,8 @@ public final class Constants {
     public static class DATASOURCE {
         public static String DEFAULT_SCHEMA = "default";
         public static String DEFAULT_MYSQL_SCHEMA = "mysql";
-        public static String METADATA_SCHEMA = "metadata";
-        public static String CC_SCHEMA_PREFIX = "cc_";
+        public static String METADATA_SCHEMA = "sailor_db";
+        public static String CC_SCHEMA_PREFIX = "tenant_";
 
     }
 

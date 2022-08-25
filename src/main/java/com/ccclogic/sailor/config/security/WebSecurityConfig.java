@@ -60,18 +60,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/admin/**").permitAll();
-        http.authorizeRequests().antMatchers(urlsToIncludeInOAuth()).authenticated();
-        http.authorizeRequests().antMatchers(urlsToExcludeFromOAuth()).anonymous();
+        http.authorizeRequests().antMatchers(urlsToExcludeFromOAuth()).permitAll();
         http.antMatcher("/api/**");
         http.authorizeRequests().anyRequest().authenticated();
         http.headers();
         http.anonymous();
-        //http.cors();
         http.logout();
         http.addFilterAt(new SecurityContextPersistenceFilter(new NullSecurityContextRepository()), SecurityContextPersistenceFilter.class);
         http.addFilterBefore(OAuthAccessTokenAuthenticationFilter(), LogoutFilter.class);
+        http.addFilterBefore(applicationFilter(), OAuthAccessTokenAuthenticationFilter.class);
+        http.addFilterBefore(corsFilter(), ApplicationFilter.class);
         http.addFilterAt(new CCCLogicExceptionTranslationFilter(), ExceptionTranslationFilter.class);
     }
+
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -79,6 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/api/**/swagger-resources/**");
         web.ignoring().antMatchers("/api/**/springfox-swagger-ui/**");
         web.ignoring().antMatchers("/api/**/api-docs/**");
+        web.ignoring().antMatchers("/api/**/actuator/**");
     }
 
     @Override
@@ -108,12 +110,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     protected String[] urlsToExcludeFromOAuth() {
-        return new String[]{"/api/**/users/tokens/refresh/**", "/api/**/users/tokens",
-                "/api/**/activate/**", "/api/**/athenaQuery/**", "/api/**/service-token/**"};
+        return new String[]{"/api/**/info", "/api/**/actuator/**"};
     }
 
     protected String[] urlsToIncludeInOAuth() {
-        return new String[]{"/api/**/ivrs/**/versions/**/activate/**"};
+        return new String[]{};
     }
 
     @Bean
@@ -135,7 +136,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     public ApplicationFilter applicationFilter() {
-        return new ApplicationFilter(errorCodeMessages);
+        ApplicationFilter applicationFilter =  new ApplicationFilter(errorCodeMessages);
+        applicationFilter.setExcludeUrls(urlsToExcludeFromOAuth());
+        applicationFilter.setIncludeUrls(urlsToIncludeInOAuth());
+        return applicationFilter;
     }
 
 }

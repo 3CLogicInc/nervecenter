@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/info")
+@RequestMapping("/callcenters/{centerId}/info")
 public class VersionController {
 
     @GetMapping
