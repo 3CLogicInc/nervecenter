@@ -21,3 +21,24 @@ alter table properties
 
 alter table properties modify id int auto_increment;
 
+# Activity Logs
+
+create table activity_log
+(
+    id int,
+    activity_type varchar(512) not null,
+    details text null,
+    created_by int null,
+    created_at int null
+);
+
+create unique index activity_log_id_uindex
+    on activity_log (id);
+
+alter table activity_log
+    add constraint activity_log_pk
+        primary key (id);
+
+alter table activity_log modify id int auto_increment;
+
+

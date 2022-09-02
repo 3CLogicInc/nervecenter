@@ -1,4 +1,4 @@
-package com.ccclogic.sailor.entities.tenant;
+package com.ccclogic.sailor.entities.metadata;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "properties")
-public class TenantProperties {
+public class MetadataProperties {
 
     @Id
     @Column(name = "id")

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -21,21 +20,21 @@ import java.util.HashMap;
 @Configuration
 @PropertySource({"classpath:application.properties"})
 @EnableJpaRepositories(
-        basePackages = "com.ccclogic.sailor.repositories.webastra",
-        entityManagerFactoryRef = "webastraEntityManagerFactory",
-        transactionManagerRef = "webastraTransactionManager"
+        basePackages = "com.ccclogic.sailor.repositories.metadata",
+        entityManagerFactoryRef = "metadataEntityManagerFactory",
+        transactionManagerRef = "metadataTransactionManager"
 )
-public class WebastraDatasourceConfig {
+public class MetadataDatasourceConfig {
 
     @Autowired
     private Environment env;
 
-    @Bean("webastraEntityManagerFactory")
+    @Bean("metadataEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean metadataEntityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(webastraDataSource());
-        em.setPackagesToScan("com.ccclogic.ms.entities.webastra");
+        em.setDataSource(metadataDataSource());
+        em.setPackagesToScan("com.ccclogic.sailor.entities.metadata");
 
         HibernateJpaVendorAdapter vendorAdapter
                 = new HibernateJpaVendorAdapter();
@@ -52,22 +51,21 @@ public class WebastraDatasourceConfig {
 
 
     @Bean
-    @Primary
-    public DataSource webastraDataSource() {
+    public DataSource metadataDataSource() {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(env.getProperty("webastra.spring.datasource.url"));
-        config.setUsername(env.getProperty("webastra.spring.datasource.username"));
-        config.setPassword(env.getProperty("webastra.spring.datasource.password"));
-        config.setDriverClassName(env.getProperty("webastra.spring.datasource.driver"));
-        config.setConnectionTestQuery(env.getProperty("webastra.spring.datasource.connectionTestQuery"));
-        config.setTransactionIsolation(env.getProperty("webastra.spring.datasource.transactionIsolation"));
+        config.setJdbcUrl(env.getProperty("tenant.spring.datasource.url"));
+        config.setUsername(env.getProperty("tenant.spring.datasource.username"));
+        config.setPassword(env.getProperty("tenant.spring.datasource.password"));
+        config.setDriverClassName(env.getProperty("tenant.spring.datasource.driver"));
+        config.setConnectionTestQuery(env.getProperty("tenant.spring.datasource.connectionTestQuery"));
+        config.setTransactionIsolation(env.getProperty("tenant.spring.datasource.transactionIsolation"));
         return new HikariDataSource(config);
     }
 
 
     @Bean
-    @Qualifier("webastraTransactionManager")
-    public PlatformTransactionManager webastraTransactionManager() {
+    @Qualifier("metadataTransactionManager")
+    public PlatformTransactionManager metadataTransactionManager() {
 
         JpaTransactionManager transactionManager
                 = new JpaTransactionManager();
