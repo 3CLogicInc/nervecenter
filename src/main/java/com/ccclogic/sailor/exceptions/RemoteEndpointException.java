@@ -1,9 +1,7 @@
 package com.ccclogic.sailor.exceptions;
 
-import lombok.Data;
 import org.springframework.http.HttpStatus;
 
-@Data
 public class RemoteEndpointException extends RuntimeException {
 
     /**
