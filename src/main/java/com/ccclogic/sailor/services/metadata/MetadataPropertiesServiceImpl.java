@@ -37,7 +37,7 @@ public class MetadataPropertiesServiceImpl implements MetadataPropertiesService{
                 "footer_copyright_url",
                 "footer_aboutus_url"
         );
-//select * from properties where key in()
+
         List<MetadataProperties> metadataProperties = metadataPropertiesRepository.findByKeyIn(requiredProp);
 
         Map<String, String> result = new HashMap<>();
