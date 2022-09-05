@@ -12,7 +12,6 @@ public interface MetadataPropertiesRepository extends JpaRepository<MetadataProp
     
     List<MetadataProperties> findByLoadOn(Integer loadOn);
 
-    @Query(value = "select * from  properties where `key` in (:props)", nativeQuery = true)
-    List<MetadataProperties> findPropForSynergy(List<String> props);
+    List<MetadataProperties> findByKeyIn(List<String> props);
 
 }

@@ -38,7 +38,7 @@ public class MetadataPropertiesServiceImpl implements MetadataPropertiesService{
                 "footer_aboutus_url"
         );
 //select * from properties where key in()
-        List<MetadataProperties> metadataProperties = metadataPropertiesRepository.findPropForSynergy(requiredProp);
+        List<MetadataProperties> metadataProperties = metadataPropertiesRepository.findByKeyIn(requiredProp);
 
         Map<String, String> result = new HashMap<>();
         metadataProperties.stream().forEach((p -> result.put(p.getKey(), p.getValue())));
