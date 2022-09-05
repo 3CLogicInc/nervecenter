@@ -51,6 +51,11 @@ public class ApplicationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String ccId = RequestUtil.parseFromPath(request.getRequestURI()).get("callcenters");
         try {
+            if(request.getRequestURI().startsWith("/api/v1/app")){
+                filterChain.doFilter(request, response);
+                return;
+            }
+
             //  If request is OPTIONS, let it pass through. CCId can be null for admin/supervisor.
             if (!StringUtils.isBlank(ccId) && !HttpMethod.OPTIONS.toString().equalsIgnoreCase(request.getMethod())) {
 
