@@ -17,9 +17,8 @@ public class MetadataPropertiesServiceImpl implements MetadataPropertiesService{
 
     @Override
     public Map<String, String> getAllProperties() {
-        List<MetadataProperties> properties = metadataPropertiesRepository.findAll();
         Map<String, String> result = new HashMap<>();
-        properties.stream().forEach((p -> result.put(p.getKey(), p.getValue())));
+        metadataPropertiesRepository.findAll().forEach((p -> result.put(p.getKey(), p.getValue())));
         return result;
     }
 

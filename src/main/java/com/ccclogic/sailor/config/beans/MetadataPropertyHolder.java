@@ -27,8 +27,7 @@ public class MetadataPropertyHolder {
 
     private void loadFromDatabase() {
         log.info("Loading properties while application startup.");
-        List<MetadataProperties> metadataProperties = metadataPropertiesRepository.findAll();
-        metadataProperties.forEach(mp -> {
+         metadataPropertiesRepository.findAll().forEach(mp -> {
             if(mp.getKey().startsWith("default.")){
                 deploymentDefaults.put(mp.getKey(), mp.getValue());
             }else if(mp.getKey().startsWith("property.")){

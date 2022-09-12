@@ -5,6 +5,7 @@ import com.ccclogic.sailor.repositories.tenant.TenantPropertiesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +16,8 @@ public class TenantPropertiesServiceImpl implements TenantPropertiesService{
 
     @Override
     public List<TenantProperties> getAll(){
-        return tenantPropertiesRepository.findAll();
+        List<TenantProperties> tenantProperties = new ArrayList<>();
+        tenantPropertiesRepository.findAll().forEach((t) -> tenantProperties.add(t));
+        return tenantProperties;
     }
 }
