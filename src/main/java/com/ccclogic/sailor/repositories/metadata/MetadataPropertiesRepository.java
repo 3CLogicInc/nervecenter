@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MetadataPropertiesRepository extends PagingAndSortingRepository<MetadataProperties, Long> {
+public interface MetadataPropertiesRepository extends PagingAndSortingRepository<MetadataProperties, Long>, JpaRepository<MetadataProperties, Long> {
 
     List<MetadataProperties> findByLoadOn(Integer loadOn);
 

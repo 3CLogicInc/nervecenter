@@ -51,6 +51,4 @@ public class MetadataPropertyHolder {
         });
         log.trace("Metadata Properties loaded Successfully.");
     }
-
-
 }
