@@ -1,4 +1,4 @@
-docker stop sailor
-docker rm sailor
-docker rmi -f sailor:latest
-docker build ./.. --file=dockerfile --tag=sailor
+docker stop fusion
+docker rm fusion
+docker rmi -f fusion:latest
+docker build ./.. --file=dockerfile --tag=fusion
