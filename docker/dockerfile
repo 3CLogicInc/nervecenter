@@ -1,9 +1,6 @@
-FROM  i3clogic/gateway_base:0.1
+FROM   i3clogic/alpine:openjdk-17
 COPY build/libs/fusion.jar /usr/share/app/deploy/
 COPY docker/entrypoint.sh .
-
-
-RUN yum install java-17-openjdk
 RUN chmod +x ./entrypoint.sh
 EXPOSE 8080
 ENTRYPOINT ["./entrypoint.sh"]
