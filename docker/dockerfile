@@ -1,4 +1,4 @@
-FROM   i3clogic/alpine:openjdk-17
+FROM   i3clogic/amazonlinux:openjdk17
 COPY build/libs/fusion.jar /usr/share/app/deploy/
 COPY docker/entrypoint.sh .
 RUN chmod +x ./entrypoint.sh
