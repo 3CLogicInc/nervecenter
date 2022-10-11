@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class KafkaConfig {
-
-    @Bean
-    NewTopic ctiServiceTopic(@Value("${default.integration.kafka.cti.service}")String ctiService){
-        return new NewTopic(ctiService, 3, (short) 3);
-    }
+//
+//    @Bean
+//    NewTopic ctiServiceTopic(@Value("${default.integration.kafka.cti.service}")String ctiService){
+//        return new NewTopic(ctiService, 3, (short) 3);
+//    }
 
 }

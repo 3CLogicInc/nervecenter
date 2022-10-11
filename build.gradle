@@ -43,8 +43,10 @@ dependencies {
     implementation 'joda-time:joda-time:2.11.0'
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'org.hibernate:hibernate-entitymanager:5.6.10.Final'
-    implementation 'org.springframework.kafka:spring-kafka'
-    implementation 'org.apache.kafka:kafka-streams'
+    implementation 'net.sf.json-lib:json-lib:2.4:jdk15'
+
+//    implementation 'org.springframework.kafka:spring-kafka'
+//    implementation 'org.apache.kafka:kafka-streams'
 
     runtimeOnly('mysql:mysql-connector-java:8.0.30')
     compileOnly 'org.projectlombok:lombok'
