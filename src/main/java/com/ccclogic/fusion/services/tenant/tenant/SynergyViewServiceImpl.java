@@ -5,7 +5,6 @@ import com.ccclogic.fusion.entities.tenant.SynergyView;
 import com.ccclogic.fusion.exceptions.ResourceNotFoundException;
 import com.ccclogic.fusion.repositories.tenant.SynergyViewRepository;
 import com.ccclogic.fusion.transformer.SynergyViewToViewConfig;
-import com.ccclogic.fusion.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
