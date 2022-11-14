@@ -2,6 +2,7 @@ package com.ccclogic.fusion.services.metadata;
 
 import com.ccclogic.fusion.entities.metadata.MetadataProperties;
 import com.ccclogic.fusion.repositories.metadata.MetadataPropertiesRepository;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class MetadataPropertiesServiceImpl implements MetadataPropertiesService{
 
     @Override
     public Map<String, String> getPropForSynergy() {
-        List<String> requiredProp = List.of(
+        List<String> requiredProp = Lists.newArrayList(
                 "signout_url",
                 "ls_url",
                 "secret_key_aggrid",
