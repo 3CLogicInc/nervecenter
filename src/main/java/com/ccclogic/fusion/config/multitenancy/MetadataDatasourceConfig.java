@@ -53,6 +53,7 @@ public class MetadataDatasourceConfig {
     @Bean
     public DataSource metadataDataSource() {
         HikariConfig config = new HikariConfig();
+        config.setPoolName("Tenant Metadata Pool : "+env.getProperty("tenant.spring.datasource.url"));
         config.setJdbcUrl(env.getProperty("tenant.spring.datasource.url"));
         config.setUsername(env.getProperty("tenant.spring.datasource.username"));
         config.setPassword(env.getProperty("tenant.spring.datasource.password"));

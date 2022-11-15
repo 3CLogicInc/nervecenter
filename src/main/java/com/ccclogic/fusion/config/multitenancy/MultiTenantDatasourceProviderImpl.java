@@ -91,6 +91,7 @@ public class MultiTenantDatasourceProviderImpl implements MultiTenantDatasourceP
     DataSource getDatasource() {
 
         HikariConfig config = new HikariConfig();
+        config.setPoolName("Tenant Pool : "+env.getProperty("tenant.spring.datasource.url"));
         config.setJdbcUrl(env.getProperty("tenant.spring.datasource.url"));
         config.setUsername(env.getProperty("tenant.spring.datasource.username"));
         config.setPassword(env.getProperty("tenant.spring.datasource.password"));

@@ -55,6 +55,7 @@ public class WebastraDatasourceConfig {
     @Primary
     public DataSource webastraDataSource() {
         HikariConfig config = new HikariConfig();
+        config.setPoolName("Webstra Pool : "+env.getProperty("webastra.spring.datasource.url"));
         config.setJdbcUrl(env.getProperty("webastra.spring.datasource.url"));
         config.setUsername(env.getProperty("webastra.spring.datasource.username"));
         config.setPassword(env.getProperty("webastra.spring.datasource.password"));
