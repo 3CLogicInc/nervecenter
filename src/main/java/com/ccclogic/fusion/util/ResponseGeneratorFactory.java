@@ -10,10 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ResponseGeneratorFactory {
 
@@ -32,6 +29,9 @@ public class ResponseGeneratorFactory {
         } else if (response instanceof ResponseEntity) {
             logger.debug("I am instance of ResponseEntity, I should be presented accordingly");
             response = getResponseEntityFromResponseEntity(response, fields);
+        } else if(response instanceof TreeMap || response instanceof String) {
+            logger.debug("I am instance of TreeMap, I should be presented as it is");
+            return response;
         } else {
             response = getResponseEntityFromEntity(response, fields);
         }
