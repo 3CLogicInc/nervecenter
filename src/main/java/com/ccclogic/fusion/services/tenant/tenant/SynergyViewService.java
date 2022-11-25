@@ -2,7 +2,8 @@ package com.ccclogic.fusion.services.tenant.tenant;
 
 
 import com.ccclogic.fusion.dto.ViewConfig;
+import com.ccclogic.fusion.entities.tenant.SynergyView;
 
 public interface SynergyViewService {
-    ViewConfig getViewConfig(Integer viewId);
+    SynergyView getViewConfig(Integer viewId);
 }

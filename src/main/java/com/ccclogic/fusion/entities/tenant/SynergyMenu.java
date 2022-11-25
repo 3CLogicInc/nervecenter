@@ -13,10 +13,10 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "portal_menu")
+@Table(name = "synergy_menu")
 @AllArgsConstructor
 @NoArgsConstructor
-public class PortalMenu {
+public class SynergyMenu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -74,16 +74,16 @@ public class PortalMenu {
     @JoinColumn(name = "parent",
             nullable = true, insertable = false, updatable = false)
     @JsonIgnore
-    private PortalMenu mainMenu;
+    private SynergyMenu mainMenu;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "mainMenu")
-    private Set<PortalMenu> children = new HashSet<>();
+    private Set<SynergyMenu> children = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PortalMenu menu = (PortalMenu) o;
+        SynergyMenu menu = (SynergyMenu) o;
         return Objects.equal(id, menu.id) && menuType == menu.menuType && Objects.equal(link, menu.link) && Objects.equal(parent, menu.parent);
     }
 

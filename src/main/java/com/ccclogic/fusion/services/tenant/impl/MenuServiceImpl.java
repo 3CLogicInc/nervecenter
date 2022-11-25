@@ -1,6 +1,6 @@
 package com.ccclogic.fusion.services.tenant.impl;
 
-import com.ccclogic.fusion.entities.tenant.PortalMenu;
+import com.ccclogic.fusion.entities.tenant.SynergyMenu;
 import com.ccclogic.fusion.repositories.tenant.MenuRepository;
 import com.ccclogic.fusion.services.tenant.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ public class MenuServiceImpl implements MenuService {
     MenuRepository menuRepository;
 
     @Override
-    public List<PortalMenu> getSideMenu() {
+    public List<SynergyMenu> getSideMenu() {
         return menuRepository.findAllByNameAndActiveIsTrueOrderByMenuOrder("portal");
     }
 }

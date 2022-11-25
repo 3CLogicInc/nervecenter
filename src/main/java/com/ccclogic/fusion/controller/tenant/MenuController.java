@@ -1,6 +1,6 @@
 package com.ccclogic.fusion.controller.tenant;
 
-import com.ccclogic.fusion.entities.tenant.PortalMenu;
+import com.ccclogic.fusion.entities.tenant.SynergyMenu;
 import com.ccclogic.fusion.services.tenant.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +17,7 @@ public class MenuController {
     MenuService menuService;
 
     @GetMapping
-    public List<PortalMenu> getSideMenu(){
+    public List<SynergyMenu> getSideMenu(){
         return menuService.getSideMenu();
 
     }

@@ -8,10 +8,10 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "synergy_user_view_customizations")
+@Table(name = "synergy_user_tab_customizations")
 @AllArgsConstructor
 @NoArgsConstructor
-public class SynergyUserViewCustomizations {
+public class SynergyUserTabCustomizations {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
