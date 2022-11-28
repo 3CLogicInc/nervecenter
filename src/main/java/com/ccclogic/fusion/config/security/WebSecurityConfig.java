@@ -124,12 +124,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return reg;
     }
 
-    @Bean
-    public FilterRegistrationBean registerApplicationFilter() {
-        FilterRegistrationBean reg = new FilterRegistrationBean(applicationFilter());
-        reg.setOrder(4);
-        return reg;
-    }
+//    @Bean
+//    public FilterRegistrationBean registerApplicationFilter() {
+//        FilterRegistrationBean reg = new FilterRegistrationBean(applicationFilter());
+//        reg.setOrder(4);
+//        return reg;
+//    }
 
     public CorsFilter corsFilter() {
         return new CorsFilter(corsConfigurationSource());

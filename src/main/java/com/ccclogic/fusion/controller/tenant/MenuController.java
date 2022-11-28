@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/callcenters/{centerId}/menu")
+@RequestMapping("/api/v1/callcenters/{centerId}/menu")
 public class MenuController {
 
     @Autowired

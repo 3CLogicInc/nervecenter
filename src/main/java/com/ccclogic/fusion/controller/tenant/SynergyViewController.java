@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/callcenters/{centerId}/views")
+@RequestMapping("/api/v1/callcenters/{centerId}/views")
 public class SynergyViewController {
 
     @Autowired

@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +73,7 @@ public class OAuthAuthenticationProvider implements AuthenticationProvider {
 //            }
             authAuthenticationToken = new OAuthAuthenticationToken(token, currentUser, null);
             authAuthenticationToken.setAuthenticated(true);
+
         } catch (IllegalAccessException | MalformedJwtException | SignatureException e) {
             throw new BadCredentialsException(AuthenticationErrorCodes.invalidCode);
         } catch (ExpiredJwtException e) {
