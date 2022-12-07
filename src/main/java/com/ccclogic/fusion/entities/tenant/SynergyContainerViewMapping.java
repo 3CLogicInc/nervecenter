@@ -8,10 +8,10 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "synergy_view_tab")
+@Table(name = "synergy_container_view_mapping")
 @AllArgsConstructor
 @NoArgsConstructor
-public class SynergyViewTab {
+public class SynergyContainerViewMapping {
 
     @Id @GeneratedValue
     private Integer id;
@@ -19,7 +19,7 @@ public class SynergyViewTab {
     @Column(name = "view_id")
     private Integer viewId;
 
-    @Column(name = "tab_id")
-    private Integer tabId;
+    @Column(name = "container_id")
+    private Integer containerId;
 
 }

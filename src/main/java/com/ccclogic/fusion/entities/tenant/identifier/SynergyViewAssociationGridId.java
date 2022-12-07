@@ -6,9 +6,9 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Data
-public class SynergyTabAssociationGridId implements Serializable {
+public class SynergyViewAssociationGridId implements Serializable {
     @Id
-    private Integer tabId;
+    private Integer viewId;
 
     @Id
     private Integer associationGridTabId;

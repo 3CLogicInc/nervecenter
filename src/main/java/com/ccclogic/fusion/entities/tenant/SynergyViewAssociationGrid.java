@@ -1,7 +1,7 @@
 package com.ccclogic.fusion.entities.tenant;
 
 
-import com.ccclogic.fusion.entities.tenant.identifier.SynergyTabAssociationGridId;
+import com.ccclogic.fusion.entities.tenant.identifier.SynergyViewAssociationGridId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,10 +13,10 @@ import javax.persistence.*;
 @Table(name = "synergy_view_association_grid")
 @AllArgsConstructor
 @NoArgsConstructor
-public class SynergyTabAssociationGrid {
+public class SynergyViewAssociationGrid {
 
     @Id
-    SynergyTabAssociationGridId id;
+    SynergyViewAssociationGridId id;
 
 }
 

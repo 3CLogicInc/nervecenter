@@ -8,33 +8,29 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "synergy_view")
+@Table(name = "synergy_view_container")
 @AllArgsConstructor
 @NoArgsConstructor
-public class SynergyView {
+public class SynergyViewContainer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "header")
+    @Column(name = "config", columnDefinition = "json")
     @Convert(converter = JsonNodeConverter.class)
-    JsonNode header;
-    @Column(name = "body")
-    @Convert(converter = JsonNodeConverter.class)
-    JsonNode body;
-    @Column(name = "filters")
-    @Convert(converter = JsonNodeConverter.class)
-    JsonNode filters;
-    @Column(name = "projections")
-    @Convert(converter = JsonNodeConverter.class)
-    JsonNode projections;
-    @Column(name = "secondary")
-    Boolean secondary;
-    @Column(name = "is_default")
-    Boolean isDefault;
+    JsonNode config;
+
+    @OneToMany
+    @JoinTable(
+            name = "synergy_container_view_mapping",
+            joinColumns = @JoinColumn(name = "container_id"),
+            inverseJoinColumns = @JoinColumn(name = "view_id", insertable = false, updatable = false)
+    )
+    Set<SynergyView> views;
 
     @Column(name = "created_at")
     Timestamp createdAt;
