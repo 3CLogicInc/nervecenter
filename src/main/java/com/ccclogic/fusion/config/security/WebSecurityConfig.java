@@ -98,7 +98,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfig.setAllowedOrigins(StringUtil.convertCsvToList(env.getProperty("cors.allowed.origins")));
         corsConfig.setAllowedMethods(StringUtil.convertCsvToList(env.getProperty("cors.allowed.methods")));
         corsConfig.setAllowedHeaders(StringUtil.convertCsvToList(env.getProperty("cors.allowed.headers")));
-        source.registerCorsConfiguration("/callcenters/**", corsConfig);
+        source.registerCorsConfiguration("/api/**", corsConfig);
         return source;
     }
 
