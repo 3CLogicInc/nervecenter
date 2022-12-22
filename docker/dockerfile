@@ -1,5 +1,5 @@
 FROM  eclipse-temurin:17-jre-alpine
-COPY build/libs/fusion.jar /usr/share/app/deploy/
+COPY build/libs/nervecenter.jar /usr/share/app/deploy/
 COPY docker/entrypoint.sh .
 RUN apk upgrade --no-cache && apk add --no-cache postgresql-client bash openssl libgcc libstdc++ ncurses-libs
 

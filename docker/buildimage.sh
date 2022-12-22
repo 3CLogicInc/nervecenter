@@ -1,4 +1,4 @@
-docker stop fusion
-docker rm fusion
-docker rmi -f fusion:latest
-docker build ./.. --file=dockerfile --tag=fusion
+docker stop nervecenter
+docker rm nervecenter
+docker rmi -f nervecenter:latest
+docker build ./.. --file=dockerfile --tag=nervecenter

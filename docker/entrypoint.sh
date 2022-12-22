@@ -17,23 +17,23 @@ then
 	then
 		if [-n "$Xmx" -a -n "$Xms" ]
 		then
-			java -jar -Xmx"$Xmx" -Xms"$Xms" fusion.jar
+			java -jar -Xmx"$Xmx" -Xms"$Xms" nervecenter.jar
 		else
-			java -jar fusion.jar
+			java -jar nervecenter.jar
 		fi
 	else
 		if [-n "$Xmx" -a -n "$Xms" ]
 		then
-			java -jar -Xmx"$Xmx" -Xms"$Xms" fusion.jar
+			java -jar -Xmx"$Xmx" -Xms"$Xms" nervecenter.jar
 		else
-			java -jar fusion.jar
+			java -jar nervecenter.jar
 		fi
 	fi
 else
 	if [ -n "$Xmx" -a -n "$Xms" ]
 	then
-		java -jar -Xmx"$Xmx" -Xms"$Xms" fusion.jar
+		java -jar -Xmx"$Xmx" -Xms"$Xms" nervecenter.jar
 	else
-		java -jar fusion.jar
+		java -jar nervecenter.jar
 	fi
 fi
