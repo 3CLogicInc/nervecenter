@@ -11,7 +11,7 @@
 
 	<appender name="FILE-AUDIT"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOG_HOME}/sailor.log</file>
+		<file>${LOG_HOME}/nervecenter.log</file>
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>
 				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
@@ -20,7 +20,7 @@
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily -->
-			<fileNamePattern>${LOG_HOME}/archived/sailor.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<fileNamePattern>${LOG_HOME}/archived/nervecenter.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<!-- or whenever the file size reaches 50MB -->
 				<maxFileSize>10MB</maxFileSize>
