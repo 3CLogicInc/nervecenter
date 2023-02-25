@@ -5,13 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ModelUser {
 
     private String userName;
@@ -28,5 +29,22 @@ public class ModelUser {
     private boolean admin;
     private boolean supervisor;
     private boolean owner;
+
+    public ModelUser(User user, String name, Integer entityId) throws IllegalArgumentException {
+        setEntityId(entityId);
+        setFullName(name);
+        setUserName(user.getUsername());
+        setToken(user.getUsername());
+        if (getAuthorities() != null) {
+            for (GrantedAuthority authority : getAuthorities()) {
+                if ("ROLE_OWNER".equals(authority.getAuthority()))
+                    this.owner = true;
+                else if ("ROLE_ADMINISTRATOR".equals(authority.getAuthority()))
+                    this.admin = true;
+                else if ("ROLE_SUPERVISOR".equals(authority.getAuthority()))
+                    this.supervisor = true;
+            }
+        }
+    }
 
 }

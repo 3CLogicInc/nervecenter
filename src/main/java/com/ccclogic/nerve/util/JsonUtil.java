@@ -102,4 +102,15 @@ public class JsonUtil {
 			}
 		}
 	}
+
+	public static String convertObjectToStringUsingView(Object obj, Class viewClass){
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonString = null;
+		try {
+			jsonString = mapper.writerWithView(viewClass).writeValueAsString(obj);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return jsonString;
+	}
 }
