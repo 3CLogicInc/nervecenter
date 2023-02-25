@@ -26,7 +26,7 @@ public class EntrypointController {
         return entrypointService.save(entryPoint);
     }
 
-    @PostMapping("/{entrypointId}")
+    @PutMapping("/{entrypointId}")
     public Entrypoint updateEntryPoint(@PathVariable Integer entrypointId, @RequestBody Entrypoint entryPoint) {
         return entrypointService.update(entrypointId, entryPoint);
     }
