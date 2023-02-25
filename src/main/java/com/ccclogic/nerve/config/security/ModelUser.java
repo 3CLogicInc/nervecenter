@@ -15,9 +15,9 @@ import java.util.List;
 public class ModelUser {
 
     private String userName;
-    private Long entityId;
-    private Long centerId;
-    private Long customerId;
+    private Integer entityId;
+    private Integer centerId;
+    private Integer customerId;
     private String email;
     private String fullName;
     private String clientId;

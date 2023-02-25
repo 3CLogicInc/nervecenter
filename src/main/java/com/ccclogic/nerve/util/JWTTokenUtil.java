@@ -71,14 +71,14 @@ public class JWTTokenUtil {
             throw new ResourceAccessException("Invalid token provided");
 
         ModelUser modelUser = ModelUser.builder()
-                .entityId(claims.get("entityId", Integer.class).longValue())
+                .entityId(claims.get("entityId", Integer.class))
                 .email(claims.get("email", String.class))
                 .status(claims.get("status", String.class))
                 .clientId(claims.get("client_id", String.class))
                 .fullName(claims.get("fullName", String.class))
                 .scopes(claims.get("scope", List.class))
-                .customerId(claims.get("customerId", Integer.class).longValue())
-                .centerId(claims.get("contactCenterId", Integer.class).longValue())
+                .customerId(claims.get("customerId", Integer.class))
+                .centerId(claims.get("contactCenterId", Integer.class))
                 .token(token)
                 .build();
 
