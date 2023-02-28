@@ -89,11 +89,13 @@ public class OAuthAccessTokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private boolean inVPCRange(String ip) {
+        log.info("OAuthAccessTokenAuthenticationFilter: IP Provided : {}", ip);
         boolean isInternal = ip.startsWith("192.") ||
                 ip.startsWith("172.") ||
                 ip.startsWith("10") ||
                 ip.equals("127.0.0.1") ||
                 ip.equals("0:0:0:0:0:0:0:1");
+        log.info("OAuthAccessTokenAuthenticationFilter: IP Provided : {} is internal : {}", ip, isInternal);
 
         log.debug("Remote Address {} is private : {}", ip, isInternal);
         return isInternal;
