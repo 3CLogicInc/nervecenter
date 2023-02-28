@@ -101,7 +101,7 @@ public class JWTTokenUtil {
         }
 
         User user = new User("admin",
-                token,
+                "token",
                 true,
                 true,
                 true,

@@ -1,6 +1,7 @@
 package com.ccclogic.nerve.controller;
 
 
+import com.ccclogic.nerve.dto.BulkOperationDto;
 import com.ccclogic.nerve.entities.webastra.Entrypoint;
 import com.ccclogic.nerve.services.webastra.EntrypointService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,11 @@ public class EntrypointController {
         return entrypointService.getEntrypoints(ccId, status);
     }
 
+    @GetMapping("/{entrypointId}")
+    public Entrypoint getEntrypointById(@PathVariable Integer entrypointId) {
+        return entrypointService.getEntrypointById(entrypointId);
+    }
+
     @PostMapping
     public Entrypoint saveEntryPoint(@RequestBody Entrypoint entryPoint) {
         return entrypointService.save(entryPoint);
@@ -31,14 +37,54 @@ public class EntrypointController {
         return entrypointService.update(entrypointId, entryPoint);
     }
 
+    @PutMapping("/{entrypointId}/flow")
+    public Entrypoint updateEntryPointFlow(@PathVariable Integer entrypointId, @RequestBody Entrypoint entryPoint) {
+        return entrypointService.updateEntrypointFlow(entrypointId, entryPoint);
+    }
+
     @DeleteMapping("/{entrypointId}/unassign")
     public Entrypoint unassignEntryPoint(@PathVariable Integer entrypointId) {
         return entrypointService.unassign(entrypointId);
     }
 
-    @DeleteMapping("/{entrypointId}/cancel")
-    public Entrypoint cancelEntryPoint(@PathVariable Integer entrypointId) {
-        return entrypointService.cancel(entrypointId);
+    @PutMapping("/bulk/assign/callcenters")
+    public void assignCallcenter(@RequestBody BulkOperationDto bulkOperationDto) {
+        entrypointService.assignToCallcenter(bulkOperationDto);
+    }
+
+    @PutMapping("/bulk/unassign/callcenters")
+    public void unassignCallcenter(@RequestBody BulkOperationDto bulkOperationDto) {
+        entrypointService.unassignFromCallcenter(bulkOperationDto);
+    }
+
+    @PutMapping("/bulk/assign/flow")
+    public void assignFlow(@RequestBody BulkOperationDto bulkOperationDto) {
+        entrypointService.assignToCallcenterAndFlow(bulkOperationDto);
+    }
+
+    @PutMapping("/bulk/unassign/flow")
+    public void unassignFlowAndCallcenter(@RequestBody BulkOperationDto bulkOperationDto) {
+        entrypointService.unassignFlow(bulkOperationDto);
+    }
+
+    @DeleteMapping("/bulk/cancel/remote")
+    public void bulkCancelEntrypointFromRemote(@RequestBody BulkOperationDto bulkOperationDto) {
+        entrypointService.unassignFlow(bulkOperationDto);
+    }
+
+    @DeleteMapping("/bulk/cancel/nerve")
+    public void bulkCancelEntrypointFromNerve(@RequestBody BulkOperationDto bulkOperationDto) {
+        entrypointService.unassignFlow(bulkOperationDto);
+    }
+
+    @DeleteMapping("/bulk/cancel")
+    public List<Entrypoint> cancelEntryPoint(@RequestBody BulkOperationDto bulkOperationDto) {
+        return entrypointService.cancel(bulkOperationDto);
+    }
+
+    @DeleteMapping("/bulk/remote/cancel")
+    public List<Entrypoint> cancelEntryPointRemote(@RequestBody BulkOperationDto bulkOperationDto) {
+        return entrypointService.cancelRemote(bulkOperationDto);
     }
 
 

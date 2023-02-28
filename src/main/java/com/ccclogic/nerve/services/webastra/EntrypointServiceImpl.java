@@ -1,6 +1,8 @@
 package com.ccclogic.nerve.services.webastra;
 
+import com.ccclogic.nerve.dto.BulkOperationDto;
 import com.ccclogic.nerve.entities.webastra.Entrypoint;
+import com.ccclogic.nerve.entities.webastra.enums.EntrypointStatus;
 import com.ccclogic.nerve.repositories.webastra.EntrypointRepository;
 import com.ccclogic.nerve.util.ObjectUtil;
 import com.ccclogic.nerve.util.SecurityUtil;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EntrypointServiceImpl implements EntrypointService {
@@ -37,10 +40,34 @@ public class EntrypointServiceImpl implements EntrypointService {
     }
 
     @Override
+    public Entrypoint getEntrypointById(Integer entrypointId) {
+        return entrypointRepository.findById(entrypointId).orElseThrow(() -> new IllegalArgumentException("Entrypoint not found"));
+    }
+
+    @Override
     public Entrypoint save(Entrypoint entryPoint) {
-        entryPoint.setStatus("INACTIVE");
+        entryPoint.setStatus("AVAILABLE");
+
+        if (entryPoint.getFlowId() != null) {
+            entryPoint.setStatus("ACTIVE");
+        }
         entryPoint.setUpdatedById(SecurityUtil.getLoggedInUser().getEntityId());
         entryPoint.setCreatedById(SecurityUtil.getLoggedInUser().getEntityId());
+        entryPoint.setCreatedOn("OPS");
+        Entrypoint savedEntrypoint = entrypointRepository.save(entryPoint);
+        return savedEntrypoint;
+    }
+
+    @Override
+    public Entrypoint saveRemote(Entrypoint entryPoint) {
+        entryPoint.setStatus("AVAILABLE");
+
+        if (entryPoint.getFlowId() != null) {
+            entryPoint.setStatus("ACTIVE");
+        }
+        entryPoint.setUpdatedById(SecurityUtil.getLoggedInUser().getEntityId());
+        entryPoint.setCreatedById(SecurityUtil.getLoggedInUser().getEntityId());
+        entryPoint.setCreatedOn("TENANT");
         Entrypoint savedEntrypoint = entrypointRepository.save(entryPoint);
         return savedEntrypoint;
     }
@@ -60,6 +87,116 @@ public class EntrypointServiceImpl implements EntrypointService {
     }
 
     @Override
+    public void assignToCallcenter(BulkOperationDto bulkOperationDto) {
+        Integer ccId = (Integer) bulkOperationDto.getMappedId().stream().findFirst().orElseThrow(() -> new IllegalArgumentException("Callcenter Id not provided")).get("id");
+        List<Entrypoint> entrypoints = entrypointRepository.findAllById(bulkOperationDto.getSelectedListRecords());
+        if (entrypoints.isEmpty()) {
+            throw new IllegalArgumentException("Invalid entrypoint Ids provided");
+        }
+
+        List<Entrypoint> alreadyAssignedEntrypoints = entrypoints.stream().filter(e -> e.getCcId() != null).collect(Collectors.toList());
+        if (!alreadyAssignedEntrypoints.isEmpty()) {
+            throw new IllegalArgumentException("Some of  the entrypoints are already assigned to callcenters");
+        }
+
+        List<Entrypoint> cancelledEntrypoints =  entrypoints.stream().filter(e -> e.getStatus().equals(EntrypointStatus.CANCELLED.name())).collect(Collectors.toList());
+        if(!cancelledEntrypoints.isEmpty()){
+            throw new IllegalArgumentException("Some of  the entrypoints are cancelled and hence cannot be assigned to callcenter.");
+        }
+
+
+        entrypoints = entrypoints.stream().map(e -> {
+            e.setCcId(ccId);
+            return e;
+        }).collect(Collectors.toList());
+
+        entrypointRepository.saveAll(entrypoints);
+    }
+
+    @Override
+    public void unassignFromCallcenter(BulkOperationDto bulkOperationDto) {
+        List<Entrypoint> entrypoints = entrypointRepository.findAllById(bulkOperationDto.getSelectedListRecords());
+        if (entrypoints.isEmpty()) {
+            throw new IllegalArgumentException("Invalid entrypoint Ids provided");
+        }
+
+        List<Entrypoint> cancelledEntrypoints =  entrypoints.stream().filter(e -> e.getStatus().equals(EntrypointStatus.CANCELLED.name())).collect(Collectors.toList());
+        if(!cancelledEntrypoints.isEmpty()){
+            throw new IllegalArgumentException("Some of  the entrypoints are cancelled and hence cannot be unassigned to callcenter.");
+        }
+
+        entrypoints = entrypoints.stream().map(e -> {
+            e.setCcId(null);
+            return e;
+        }).collect(Collectors.toList());
+
+        entrypointRepository.saveAll(entrypoints);
+    }
+
+    @Override
+    public void assignToCallcenterAndFlow(BulkOperationDto bulkOperationDto) {
+        Integer ccId = (Integer) bulkOperationDto.getMappedId().stream().findFirst().orElseThrow(() -> new IllegalArgumentException("Callcenter Id not provided")).get("ccId");
+        Integer flowId = (Integer) bulkOperationDto.getMappedId().stream().findFirst().orElseThrow(() -> new IllegalArgumentException("FlowId Id not provided")).get("flowId");
+        List<Entrypoint> entrypoints = entrypointRepository.findAllById(bulkOperationDto.getSelectedListRecords());
+        if (entrypoints.isEmpty()) {
+            throw new IllegalArgumentException("Invalid entrypoint Ids provided");
+        }
+
+        List<Entrypoint> alreadyAssignedEntrypointsByCCId = entrypoints.stream().filter(e -> e.getCcId() != null && !e.getCcId().equals(ccId)).collect(Collectors.toList());
+        if (!alreadyAssignedEntrypointsByCCId.isEmpty()) {
+            throw new IllegalArgumentException("Some of  the entrypoints are already assigned to some other callcenter");
+        }
+
+        List<Entrypoint> alreadyAssignedEntrypointsByFlowId = entrypoints.stream().filter(e -> e.getFlowId() != null && !e.getFlowId().equals(flowId)).collect(Collectors.toList());
+        if (!alreadyAssignedEntrypointsByFlowId.isEmpty()) {
+            throw new IllegalArgumentException("Some of  the entrypoints are already assigned to some other flow");
+        }
+
+        entrypoints = entrypoints.stream().map(e -> {
+            e.setCcId(ccId);
+            e.setFlowId(flowId);
+            e.setStatus("ACTIVE");
+            return e;
+        }).collect(Collectors.toList());
+
+        entrypointRepository.saveAll(entrypoints);
+    }
+
+    @Override
+    public void unassignFlow(BulkOperationDto bulkOperationDto) {
+        List<Entrypoint> entrypoints = entrypointRepository.findAllById(bulkOperationDto.getSelectedListRecords());
+        if (entrypoints.isEmpty()) {
+            throw new IllegalArgumentException("Invalid entrypoint Ids provided");
+        }
+
+        entrypoints = entrypoints.stream().map(e -> {
+            e.setFlowId(null);
+            e.setStatus("AVAILABLE");
+            return e;
+        }).collect(Collectors.toList());
+
+        entrypointRepository.saveAll(entrypoints);
+    }
+
+    @Override
+    public Entrypoint updateEntrypointFlow(Integer entrypointId, Entrypoint entryPoint) {
+        Entrypoint savedEntrypoint = entrypointRepository.findById(entrypointId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Entrypoint Id provided"));
+
+        savedEntrypoint.setUpdatedById(SecurityUtil.getLoggedInUser().getEntityId());
+        if (entryPoint.getFlowId() != null && entryPoint.getFlowId() > 0) {
+            savedEntrypoint.setFlowId(entryPoint.getFlowId());
+            savedEntrypoint.setFlowName(entryPoint.getFlowName());
+            savedEntrypoint.setStatus("ACTIVE");
+        } else {
+            savedEntrypoint.setFlowId(null);
+            savedEntrypoint.setFlowName(null);
+            savedEntrypoint.setStatus("AVAILABLE");
+        }
+        return entrypointRepository.save(savedEntrypoint);
+    }
+
+    @Override
     public Entrypoint unassign(Integer entrypointId) {
         Entrypoint savedEntrypoint = entrypointRepository.findById(entrypointId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Entrypoint Id provided"));
@@ -72,14 +209,27 @@ public class EntrypointServiceImpl implements EntrypointService {
     }
 
     @Override
-    public Entrypoint cancel(Integer entrypointId) {
-        Entrypoint savedEntrypoint = entrypointRepository.findById(entrypointId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid Entrypoint Id provided"));
+    public List<Entrypoint> cancel(BulkOperationDto bulkOperationDto) {
+        List<Entrypoint> savedEntrypoints = entrypointRepository.findAllById(bulkOperationDto.getSelectedListRecords());
+        savedEntrypoints = savedEntrypoints.stream().map(e -> {e.setStatus("CANCELLED"); return e;}).collect(Collectors.toList());
+        return entrypointRepository.saveAll(savedEntrypoints);
+    }
 
-        savedEntrypoint.setCcId(null);
-        savedEntrypoint.setFlowId(null);
-        savedEntrypoint.setFlowName(null);
-        savedEntrypoint.setStatus("CANCELED");
-        return entrypointRepository.save(savedEntrypoint);
+    @Override
+    public List<Entrypoint> cancelRemote(BulkOperationDto bulkOperationDto) {
+        Integer ccId = (Integer) bulkOperationDto.getMappedId().stream().findFirst().orElseThrow(() -> new IllegalArgumentException("Callcenter Id not provided")).get("ccId");
+        List<Entrypoint> savedEntrypoints = entrypointRepository.findAllById(bulkOperationDto.getSelectedListRecords());
+        List<Entrypoint> entrypointCreatedOnOPS = savedEntrypoints.stream().filter(e -> e.getCreatedOn().equals("OPS")).collect(Collectors.toList());
+        if(!entrypointCreatedOnOPS.isEmpty()){
+            throw new IllegalArgumentException("Some entrypoints are created on OPS");
+        }
+
+        List<Entrypoint> entrypointAssignedToTenant = savedEntrypoints.stream().filter(e -> e.getCcId()== null || !e.getCcId().equals(ccId)).collect(Collectors.toList());
+        if(!entrypointAssignedToTenant.isEmpty()){
+            throw new IllegalArgumentException("Some entrypoints are either not assigned or assigned to different tenant. and cannot be cancelled");
+        }
+
+        savedEntrypoints = savedEntrypoints.stream().map(e -> {e.setStatus("CANCELLED"); return e;}).collect(Collectors.toList());
+        return entrypointRepository.saveAll(savedEntrypoints);
     }
 }

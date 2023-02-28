@@ -1,24 +1,19 @@
 package com.ccclogic.nerve.config.security.filters;
 
 
-import com.ccclogic.nerve.config.cache.BlackListedTokens;
 import com.ccclogic.nerve.config.security.ModelUser;
 import com.ccclogic.nerve.config.security.authentication.OAuthAuthenticationToken;
 import com.ccclogic.nerve.exceptions.ErrorResponse;
 import com.ccclogic.nerve.util.JWTTokenUtil;
 import com.ccclogic.nerve.util.JsonUtil;
-import com.ccclogic.nerve.util.errorcodes.AuthenticationErrorCodes;
 import com.ccclogic.nerve.util.logger.Debug;
 import com.ccclogic.nerve.util.logger.Info;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -28,10 +23,8 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /*
  * No SuccessHandler is required, as we don't need any specific flow or create a new flow (request)
@@ -55,21 +48,7 @@ public class OAuthAccessTokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-        Optional<String> token = JWTTokenUtil.getTokenFromHeader(request);
-        if (!token.isPresent() || StringUtils.isBlank(token.get()))
-            throw new BadCredentialsException(AuthenticationErrorCodes.noToken);
-        if (BlackListedTokens.check(token.get()))
-            throw new BadCredentialsException(AuthenticationErrorCodes.invalidToken);
-
-        Authentication authentication = new OAuthAuthenticationToken(token.get(), null);
-        authentication = authenticationManager.authenticate(authentication);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        filterChain.doFilter(request, response);
-    }
-
-    public void internal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
         try {
             if (request.getHeader("Authorization") != null) {
                 String token = request.getHeader("Authorization");
@@ -113,6 +92,7 @@ public class OAuthAccessTokenAuthenticationFilter extends OncePerRequestFilter {
         boolean isInternal = ip.startsWith("192.") ||
                 ip.startsWith("172.") ||
                 ip.startsWith("10") ||
+                ip.equals("127.0.0.1") ||
                 ip.equals("0:0:0:0:0:0:0:1");
 
         log.debug("Remote Address {} is private : {}", ip, isInternal);
