@@ -5,6 +5,7 @@ import com.ccclogic.nerve.dto.BulkOperationDto;
 import com.ccclogic.nerve.entities.webastra.Entrypoint;
 import com.ccclogic.nerve.services.webastra.EntrypointService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +18,8 @@ public class EntrypointController {
     EntrypointService entrypointService;
 
     @GetMapping
-    public List<Entrypoint> getAllEntrypointsByStatus(@RequestParam(value = "ccId", required = false) Integer ccId,
-                                                      @RequestParam(value = "status", required = false) String status) {
+    public List<Entrypoint> getAllEntrypoints(@RequestParam(value = "ccId", required = false) Integer ccId,
+                                              @RequestParam(value = "status", required = false) String status) {
         return entrypointService.getEntrypoints(ccId, status);
     }
 
@@ -40,6 +41,12 @@ public class EntrypointController {
     @PutMapping("/{entrypointId}/flow")
     public Entrypoint updateEntryPointFlow(@PathVariable Integer entrypointId, @RequestBody Entrypoint entryPoint) {
         return entrypointService.updateEntrypointFlow(entrypointId, entryPoint);
+    }
+
+    @DeleteMapping("/flow/remove")
+    public ResponseEntity removeEntryPointFlow(@RequestParam Integer flowId, @RequestParam Integer ccId) {
+        entrypointService.removeEntrypointFlow(ccId, flowId);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{entrypointId}/unassign")

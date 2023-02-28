@@ -16,4 +16,6 @@ public interface EntrypointRepository extends JpaRepository<Entrypoint, Integer>
     List<Entrypoint> findAllByStatus(String status);
 
     List<Entrypoint> findAllByCcIdAndStatusIn(Integer ccId, List<String> status);
+
+    List<Entrypoint> findAllByCcIdAndFlowIdAndStatusNot(Integer ccId, Integer flowId, String status);
 }

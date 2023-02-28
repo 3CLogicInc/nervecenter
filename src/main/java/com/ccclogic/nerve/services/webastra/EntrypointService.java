@@ -31,4 +31,6 @@ public interface EntrypointService {
     List<Entrypoint> cancel(BulkOperationDto bulkOperationDto);
 
     List<Entrypoint> cancelRemote(BulkOperationDto bulkOperationDto);
+
+    void removeEntrypointFlow(Integer ccId, Integer flowId);
 }

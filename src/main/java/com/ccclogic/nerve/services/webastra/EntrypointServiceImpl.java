@@ -232,4 +232,15 @@ public class EntrypointServiceImpl implements EntrypointService {
         savedEntrypoints = savedEntrypoints.stream().map(e -> {e.setStatus("CANCELLED"); return e;}).collect(Collectors.toList());
         return entrypointRepository.saveAll(savedEntrypoints);
     }
+
+    @Override
+    public void removeEntrypointFlow(Integer ccId, Integer flowId) {
+        List<Entrypoint> entrypoints = entrypointRepository.findAllByCcIdAndFlowIdAndStatusNot(ccId, flowId, EntrypointStatus.CANCELLED.name());
+        entrypoints = entrypoints.stream().map(entrypoint -> {
+            entrypoint.setFlowId(null);
+            entrypoint.setStatus(EntrypointStatus.AVAILABLE.name());
+            return entrypoint;
+        }).collect(Collectors.toList());
+        entrypointRepository.saveAll(entrypoints);
+    }
 }
