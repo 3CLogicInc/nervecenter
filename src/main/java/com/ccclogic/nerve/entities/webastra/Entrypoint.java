@@ -47,7 +47,7 @@ public class Entrypoint {
     @Column(name = "created_at", updatable = false, insertable = false)
     Date createdAt;
 
-    @Column(name = "flow_name", updatable = false, insertable = false)
+    @Column(name = "updated_at", updatable = false, insertable = false)
     Date updatedAt;
 
     @ManyToOne
@@ -61,8 +61,4 @@ public class Entrypoint {
     @ManyToOne
     @JoinColumn(name = "updated_by", insertable = false, updatable = false)
     private UserMinimal updatedBy;
-
-    static enum Status {
-        AVAILABLE, ACTIVE, CANCELLED
-    }
 }
