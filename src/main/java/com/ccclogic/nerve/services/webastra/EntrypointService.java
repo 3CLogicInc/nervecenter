@@ -1,6 +1,7 @@
 package com.ccclogic.nerve.services.webastra;
 
 import com.ccclogic.nerve.dto.BulkOperationDto;
+import com.ccclogic.nerve.entities.webastra.EntryPointHistory;
 import com.ccclogic.nerve.entities.webastra.Entrypoint;
 
 import java.util.List;
@@ -33,4 +34,6 @@ public interface EntrypointService {
     List<Entrypoint> cancelRemote(BulkOperationDto bulkOperationDto);
 
     void removeEntrypointFlow(Integer ccId, Integer flowId);
+
+    List<EntryPointHistory> getEntryPointHistory(String entrypoint);
 }
