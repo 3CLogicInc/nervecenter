@@ -33,6 +33,11 @@ public class EntrypointController {
         return entrypointService.save(entryPoint);
     }
 
+    @PostMapping("/local")
+    public Entrypoint saveEntryPointLocal(@RequestBody Entrypoint entryPoint) {
+        return entrypointService.saveRemote(entryPoint);
+    }
+
     @PutMapping("/{entrypointId}")
     public Entrypoint updateEntryPoint(@PathVariable Integer entrypointId, @RequestBody Entrypoint entryPoint) {
         return entrypointService.update(entrypointId, entryPoint);

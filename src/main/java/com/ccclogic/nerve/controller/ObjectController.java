@@ -51,7 +51,7 @@ public class ObjectController {
     public ResponseEntity<Object> getById(@PathVariable String repositoryName, @PathVariable Integer entityId){
         JpaRepository repository = (JpaRepository) getByName(repositoryName);
         Optional<Object> result =  repository.findById(entityId);
-        if(result.isEmpty())  return ResponseEntity.notFound().build();
+        if(!result.isPresent())  return ResponseEntity.notFound().build();
         return ResponseEntity.ok(result);
     }
 
