@@ -29,8 +29,13 @@ public class EntrypointController {
         return entrypointService.getEntrypointById(entrypointId);
     }
 
-    @PostMapping
+    @PostMapping("/remote")
     public Entrypoint saveEntryPoint(@RequestBody Entrypoint entryPoint) {
+        return entrypointService.saveRemote(entryPoint);
+    }
+
+    @PostMapping
+    public Entrypoint saveEntryPointFromNerve(@RequestBody Entrypoint entryPoint) {
         return entrypointService.save(entryPoint);
     }
 
