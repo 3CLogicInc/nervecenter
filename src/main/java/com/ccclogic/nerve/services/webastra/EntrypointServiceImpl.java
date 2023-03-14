@@ -1,8 +1,10 @@
 package com.ccclogic.nerve.services.webastra;
 
 import com.ccclogic.nerve.dto.BulkOperationDto;
+import com.ccclogic.nerve.entities.webastra.EntryPointHistory;
 import com.ccclogic.nerve.entities.webastra.Entrypoint;
 import com.ccclogic.nerve.entities.webastra.enums.EntrypointStatus;
+import com.ccclogic.nerve.repositories.webastra.EntryPointHistoryRepository;
 import com.ccclogic.nerve.repositories.webastra.EntrypointRepository;
 import com.ccclogic.nerve.util.ObjectUtil;
 import com.ccclogic.nerve.util.SecurityUtil;
@@ -23,6 +25,9 @@ public class EntrypointServiceImpl implements EntrypointService {
 
     @Autowired
     EntityManager webastraEntityManager;
+
+    @Autowired
+    EntryPointHistoryRepository entryPointHistoryRepository;
 
 
     @Override
@@ -242,5 +247,11 @@ public class EntrypointServiceImpl implements EntrypointService {
             return entrypoint;
         }).collect(Collectors.toList());
         entrypointRepository.saveAll(entrypoints);
+    }
+
+    @Override
+    public List<EntryPointHistory> getEntryPointHistory(String entrypoint) {
+        List<EntryPointHistory> entryPointHistoryList = entryPointHistoryRepository.findAllByNumber(entrypoint);
+        return entryPointHistoryList;
     }
 }

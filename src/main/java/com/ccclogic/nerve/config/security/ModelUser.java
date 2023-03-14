@@ -23,6 +23,7 @@ public class ModelUser {
     private String fullName;
     private String clientId;
     private String status;
+    private Integer userId;
     private List<GrantedAuthority> authorities;
     private List<String> scopes;
     private String token;

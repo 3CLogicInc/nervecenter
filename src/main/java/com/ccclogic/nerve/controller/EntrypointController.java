@@ -2,6 +2,7 @@ package com.ccclogic.nerve.controller;
 
 
 import com.ccclogic.nerve.dto.BulkOperationDto;
+import com.ccclogic.nerve.entities.webastra.EntryPointHistory;
 import com.ccclogic.nerve.entities.webastra.Entrypoint;
 import com.ccclogic.nerve.services.webastra.EntrypointService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,11 @@ public class EntrypointController {
     @DeleteMapping("/bulk/remote/cancel")
     public List<Entrypoint> cancelEntryPointRemote(@RequestBody BulkOperationDto bulkOperationDto) {
         return entrypointService.cancelRemote(bulkOperationDto);
+    }
+
+    @GetMapping("/{entrypoint}/history")
+    public List<EntryPointHistory> getEntryPointHistory(@PathVariable String entrypoint){
+        return entrypointService.getEntryPointHistory(entrypoint);
     }
 
 
