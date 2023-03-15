@@ -35,5 +35,5 @@ public interface EntrypointService {
 
     void removeEntrypointFlow(Integer ccId, Integer flowId);
 
-    List<EntryPointHistory> getEntryPointHistory(String entrypoint);
+    List<EntryPointHistory> getEntryPointHistory(Integer entrypointId);
 }

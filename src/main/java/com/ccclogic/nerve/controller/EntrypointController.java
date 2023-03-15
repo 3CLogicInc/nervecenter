@@ -100,9 +100,9 @@ public class EntrypointController {
         return entrypointService.cancelRemote(bulkOperationDto);
     }
 
-    @GetMapping("/{entrypoint}/history")
-    public List<EntryPointHistory> getEntryPointHistory(@PathVariable String entrypoint){
-        return entrypointService.getEntryPointHistory(entrypoint);
+    @GetMapping("/{entrypointId}/history")
+    public List<EntryPointHistory> getEntryPointHistory(@PathVariable Integer entrypointId){
+        return entrypointService.getEntryPointHistory(entrypointId);
     }
 
 

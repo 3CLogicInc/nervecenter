@@ -250,8 +250,8 @@ public class EntrypointServiceImpl implements EntrypointService {
     }
 
     @Override
-    public List<EntryPointHistory> getEntryPointHistory(String entrypoint) {
-        List<EntryPointHistory> entryPointHistoryList = entryPointHistoryRepository.findAllByNumber(entrypoint);
+    public List<EntryPointHistory> getEntryPointHistory(Integer entrypointId) {
+        List<EntryPointHistory> entryPointHistoryList = entryPointHistoryRepository.findAllByNumberId(entrypointId);
         return entryPointHistoryList;
     }
 }
