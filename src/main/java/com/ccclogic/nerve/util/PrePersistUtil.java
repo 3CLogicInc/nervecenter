@@ -25,7 +25,7 @@ public class PrePersistUtil {
             Optional<Method> setCreatedByMethodOp = Arrays.stream(methods).filter(f -> f.getName().equalsIgnoreCase("setCreatedById")).findFirst();
 
             if (setCreatedByMethodOp.isPresent()) {
-                setCreatedByMethodOp.get().invoke(object, SecurityUtil.getLoggedInUser().getUserId());
+                setCreatedByMethodOp.get().invoke(object, SecurityUtil.getLoggedInUser().getEntityId());
             }
 
             Optional<Method> updatedAtField = Arrays.stream(methods).filter(f -> f.getName().equalsIgnoreCase("setUpdatedAt")).findFirst();
@@ -36,7 +36,7 @@ public class PrePersistUtil {
             }
 
             if (updatedByField.isPresent()) {
-                updatedByField.get().invoke(object, SecurityUtil.getLoggedInUser().getUserId());
+                updatedByField.get().invoke(object, SecurityUtil.getLoggedInUser().getEntityId());
             }
 
 
@@ -60,7 +60,7 @@ public class PrePersistUtil {
             }
 
             if (updatedByField.isPresent()) {
-                updatedByField.get().invoke(object, SecurityUtil.getLoggedInUser().getUserId());
+                updatedByField.get().invoke(object, SecurityUtil.getLoggedInUser().getEntityId());
             }
 
 
