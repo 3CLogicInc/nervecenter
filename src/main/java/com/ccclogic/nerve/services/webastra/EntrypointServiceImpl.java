@@ -2,6 +2,7 @@ package com.ccclogic.nerve.services.webastra;
 
 import com.ccclogic.nerve.dto.BulkOperationDto;
 import com.ccclogic.nerve.entities.webastra.EntryPointHistory;
+import com.ccclogic.nerve.dto.FlowEntryPointDto;
 import com.ccclogic.nerve.entities.webastra.Entrypoint;
 import com.ccclogic.nerve.entities.webastra.enums.EntrypointStatus;
 import com.ccclogic.nerve.repositories.webastra.EntryPointHistoryRepository;
@@ -11,6 +12,8 @@ import com.ccclogic.nerve.util.SecurityUtil;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -247,6 +250,52 @@ public class EntrypointServiceImpl implements EntrypointService {
             return entrypoint;
         }).collect(Collectors.toList());
         entrypointRepository.saveAll(entrypoints);
+    }
+
+    @Override
+    public List<Entrypoint> getAssignedEntryPoints(Integer flowId, Integer ccId) {
+        List<Entrypoint> assignedList = entrypointRepository.findAllByCcIdAndFlowId(ccId, flowId);
+        return assignedList;
+    }
+
+    @Override
+    public List<Entrypoint> getUnassignedEntryPoints(Integer flowId, Integer ccId) {
+        List<Entrypoint> unassignedList = entrypointRepository.findAllByCcIdAndFlowId(ccId, null);
+        return unassignedList;
+    }
+
+    @Override
+    public void assignUnassign(Integer flowId, Integer ccId, String flowName, FlowEntryPointDto flowEntryPointDto) {
+        if(flowEntryPointDto.getUnassign() != null && !flowEntryPointDto.getUnassign().isEmpty()){
+            unassign(flowEntryPointDto);
+        }
+
+        if(flowEntryPointDto.getAssign() != null && !flowEntryPointDto.getAssign().isEmpty()){
+            for(Integer id : flowEntryPointDto.getAssign()){
+                Entrypoint ep = entrypointRepository.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("No entry point exists for Id : " + id));
+
+
+                ep.setFlowId(flowId);
+                ep.setFlowName(flowName);
+                ep.setStatus("ACTIVE");
+                ep.setUpdatedById(SecurityUtil.getLoggedInUser().getEntityId().intValue());
+                entrypointRepository.save(ep);
+            }
+        }
+    }
+
+    private void unassign (FlowEntryPointDto flowEntryPointDto) {
+        for(Integer id : flowEntryPointDto.getUnassign()){
+            Entrypoint ep = entrypointRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("No entry point exists for Id : " + id));
+
+            ep.setFlowId(null);
+            ep.setFlowName(null);
+            ep.setStatus("AVAILABLE");
+            ep.setUpdatedById(SecurityUtil.getLoggedInUser().getEntityId().intValue());
+            entrypointRepository.save(ep);
+        }
     }
 
     @Override
