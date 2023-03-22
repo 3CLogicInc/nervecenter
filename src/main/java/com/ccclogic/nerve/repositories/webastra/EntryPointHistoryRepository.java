@@ -10,5 +10,5 @@ import java.util.List;
 
 @RepositoryRestResource
 public interface EntryPointHistoryRepository extends JpaRepository<EntryPointHistory, Integer>, PagingAndSortingRepository<EntryPointHistory, Integer> {
-    List<EntryPointHistory> findAllByNumberId(Integer entrypointId);
+    List<EntryPointHistory> findAllById(Integer entrypointId);
 }

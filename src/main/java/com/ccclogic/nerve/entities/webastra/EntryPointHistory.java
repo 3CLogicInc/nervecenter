@@ -6,38 +6,58 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "number_history")
+@Table(name = "entrypoint_history")
 @EntityListeners(DefaultFieldEventListener.class)
 public class EntryPointHistory implements EntitySerializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "history_id")
+    private Integer historyId;
+
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "number")
-    private String number;
+    @Column(name = "entrypoint")
+    String entrypoint;
 
-    @Column(name = "number_id")
-    private Integer numberId;
+    @Column(name = "channel")
+    String channel;
 
-    @Column(name = "activity_details")
-    private String activityDetails;
-
-    @Column(name = "created_at")
-    private java.sql.Timestamp createdAt;
-
-    @Column(name = "updated_at")
-    private java.sql.Timestamp updatedAt;
-
-    @Column(name = "created_by")
-    private Integer createdById;
+    @Column(name = "ccid")
+    Integer ccId;
 
     @Column(name = "updated_by")
-    private Integer updatedById;
+    Integer updatedById;
+
+    @Column(name = "created_by")
+    Integer createdById;
+
+    @Column(name = "flow_id")
+    Integer flowId;
+
+    @Column(name = "flow_name")
+    String flowName;
+
+    @Column(name = "activity_details")
+    String activityDetails;
+
+    @Column(name = "created_on")
+    String createdOn;
+
+    @Column(name = "created_at", updatable = false, insertable = false)
+    Date createdAt;
+
+    @Column(name = "updated_at", updatable = false, insertable = false)
+    Date updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "ccid", insertable = false, updatable = false)
+    private Callcenter callcenter;
 
     @ManyToOne
     @JoinColumn(name = "created_by", insertable = false, updatable = false)

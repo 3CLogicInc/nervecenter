@@ -254,7 +254,9 @@ public class EntrypointServiceImpl implements EntrypointService {
 
     @Override
     public List<EntryPointHistory> getEntryPointHistory(Integer entrypointId) {
-        List<EntryPointHistory> entryPointHistoryList = entryPointHistoryRepository.findAllByNumberId(entrypointId);
+        List<EntryPointHistory> entryPointHistoryList = entryPointHistoryRepository.findAllById(entrypointId);
+        return entryPointHistoryList;
+    }
 
     public List<Entrypoint> getAssignedEntryPoints(Integer flowId, Integer ccId) {
         List<Entrypoint> assignedList = entrypointRepository.findAllByCcIdAndFlowId(ccId, flowId);
@@ -300,6 +302,5 @@ public class EntrypointServiceImpl implements EntrypointService {
             entrypointRepository.save(ep);
         }
     }
-        return entryPointHistoryList;
-    }
+
 }
