@@ -36,11 +36,12 @@ public interface EntrypointService {
 
     void removeEntrypointFlow(Integer ccId, Integer flowId);
 
+    List<EntryPointHistory> getEntryPointHistory(Integer entrypointId);
+
     List<Entrypoint> getAssignedEntryPoints(Integer flowId, Integer ccId);
 
     List<Entrypoint> getUnassignedEntryPoints(Integer flowId, Integer ccId);
 
     void assignUnassign(Integer flowId, Integer ccId, String flowName, FlowEntryPointDto flowEntryPointDto);
 
-    List<EntryPointHistory> getEntryPointHistory(String entrypoint);
 }
