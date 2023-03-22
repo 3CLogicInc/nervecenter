@@ -2,6 +2,7 @@ package com.ccclogic.nerve.services.webastra;
 
 import com.ccclogic.nerve.dto.BulkOperationDto;
 import com.ccclogic.nerve.entities.webastra.EntryPointHistory;
+import com.ccclogic.nerve.dto.FlowEntryPointDto;
 import com.ccclogic.nerve.entities.webastra.Entrypoint;
 
 import java.util.List;
@@ -36,4 +37,11 @@ public interface EntrypointService {
     void removeEntrypointFlow(Integer ccId, Integer flowId);
 
     List<EntryPointHistory> getEntryPointHistory(Integer entrypointId);
+
+    List<Entrypoint> getAssignedEntryPoints(Integer flowId, Integer ccId);
+
+    List<Entrypoint> getUnassignedEntryPoints(Integer flowId, Integer ccId);
+
+    void assignUnassign(Integer flowId, Integer ccId, String flowName, FlowEntryPointDto flowEntryPointDto);
+
 }
