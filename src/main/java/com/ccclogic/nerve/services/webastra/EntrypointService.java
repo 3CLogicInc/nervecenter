@@ -44,4 +44,7 @@ public interface EntrypointService {
 
     void assignUnassign(Integer flowId, Integer ccId, String flowName, FlowEntryPointDto flowEntryPointDto);
 
+    List<Entrypoint> getAllEntryPointsByIds(List<Integer> entryPointIds);
+
+    List<Entrypoint> getAllEntryPointsByFlowId(Integer flowId);
 }

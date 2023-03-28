@@ -22,4 +22,6 @@ public interface EntrypointRepository extends JpaRepository<Entrypoint, Integer>
     List<Entrypoint> findAllByCcIdAndFlowId(Integer ccId, Integer flowId);
 
     void removeAllByCcIdAndFlowId(Integer ccId, Integer flowId);
+
+    List<Entrypoint> findAllEntryPointsByFlowId(Integer flowId);
 }
