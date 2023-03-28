@@ -24,6 +24,16 @@ public class EntrypointController {
         return entrypointService.getEntrypoints(ccId, status);
     }
 
+    @GetMapping("/flow")
+    public List<Entrypoint> getAllEntryPointsByIds(@RequestParam List<Integer> entryPointIds){
+        return entrypointService.getAllEntryPointsByIds(entryPointIds);
+    }
+
+    @GetMapping("/flows/{flowId}")
+    public List<Entrypoint> getAllEntryPointsByFlowId(@PathVariable Integer flowId) {
+        return entrypointService.getAllEntryPointsByFlowId(flowId);
+    }
+
     @GetMapping("/{entrypointId}")
     public Entrypoint getEntrypointById(@PathVariable Integer entrypointId) {
         return entrypointService.getEntrypointById(entrypointId);

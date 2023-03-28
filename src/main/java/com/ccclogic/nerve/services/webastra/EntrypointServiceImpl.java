@@ -48,8 +48,20 @@ public class EntrypointServiceImpl implements EntrypointService {
     }
 
     @Override
+    public List<Entrypoint> getAllEntryPointsByFlowId(Integer flowId) {
+        List<Entrypoint> entrypointList = entrypointRepository.findAllEntryPointsByFlowId(flowId);
+        return entrypointList;
+    }
+
+    @Override
     public Entrypoint getEntrypointById(Integer entrypointId) {
         return entrypointRepository.findById(entrypointId).orElseThrow(() -> new IllegalArgumentException("Entrypoint not found"));
+    }
+
+    @Override
+    public List<Entrypoint> getAllEntryPointsByIds(List<Integer> entryPointIds) {
+        List<Entrypoint> entrypointList = entrypointRepository.findAllById(entryPointIds);
+        return entrypointList;
     }
 
     @Override
