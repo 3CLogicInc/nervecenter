@@ -25,8 +25,8 @@ public class EntrypointController {
     }
 
     @GetMapping("/flow")
-    public List<Entrypoint> getAllEntryPointsByIds(@RequestParam List<Integer> entryPointIds){
-        return entrypointService.getAllEntryPointsByIds(entryPointIds);
+    public List<Entrypoint> getAllEntryPointsByIds(@RequestParam List<Integer> ids){
+        return entrypointService.getAllEntryPointsByIds(ids);
     }
 
     @GetMapping("/flows/{flowId}")

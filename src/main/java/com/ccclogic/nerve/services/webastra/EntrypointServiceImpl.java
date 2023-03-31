@@ -60,7 +60,7 @@ public class EntrypointServiceImpl implements EntrypointService {
 
     @Override
     public List<Entrypoint> getAllEntryPointsByIds(List<Integer> entryPointIds) {
-        List<Entrypoint> entrypointList = entrypointRepository.findAllById(entryPointIds);
+        List<Entrypoint> entrypointList = entrypointRepository.findAllByIdIn(entryPointIds);
         return entrypointList;
     }
 
