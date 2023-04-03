@@ -1,0 +1,17 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.4.0.2170-linux.zip
+      - unzip sonar-scanner-cli-4.4.0.2170-linux.zip
+      - mv sonar-scanner-4.4.0.2170-linux /opt/sonar-scanner
+      - chmod -R 775 /opt/sonar-scanner
+      - echo "pre_build stage completed"
+  build:
+    commands:
+      - cd $CODEBUILD_SRC_DIR
+      - /opt/sonar-scanner/bin/sonar-scanner -Dsonar.projectKey=$SonarKey -Dsonar.sources=.    D"sonar.java.libraries=."    -Dsonar.host.url=$SonarQube_URL -Dsonar.login=$SonarQube_Access_Token > sonarqube_scanreport.json
+      - echo "build stage completed"
+artifacts:
+  type: zip
+  files: '**/*'
