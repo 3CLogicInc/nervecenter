@@ -191,6 +191,7 @@ public class EntrypointServiceImpl implements EntrypointService {
 
         entrypoints = entrypoints.stream().map(e -> {
             e.setFlowId(null);
+            e.setFlowName(null);
             e.setStatus("AVAILABLE");
             return e;
         }).collect(Collectors.toList());
