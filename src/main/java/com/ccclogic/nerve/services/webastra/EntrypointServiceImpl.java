@@ -17,6 +17,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -154,9 +155,9 @@ public class EntrypointServiceImpl implements EntrypointService {
     }
 
     @Override
-    public void assignToCallcenterAndFlow(BulkOperationDto bulkOperationDto) {
-        Integer ccId = (Integer) bulkOperationDto.getMappedId().stream().findFirst().orElseThrow(() -> new IllegalArgumentException("Callcenter Id not provided")).get("ccId");
-        Integer flowId = (Integer) bulkOperationDto.getMappedId().stream().findFirst().orElseThrow(() -> new IllegalArgumentException("FlowId Id not provided")).get("flowId");
+    public void assignToCallcenterAndFlow(BulkOperationDto bulkOperationDto, String flowName) {
+        Integer flowId = (Integer) bulkOperationDto.getMappedId().stream().findFirst().orElseThrow(() -> new IllegalArgumentException("FlowId Id not provided")).get("id");
+        Integer ccId = (Integer) bulkOperationDto.getMappedId().stream().skip(1).findFirst().orElseThrow(() -> new IllegalArgumentException("Callcenter Id not provided")).get("ccId");
         List<Entrypoint> entrypoints = entrypointRepository.findAllById(bulkOperationDto.getSelectedListRecords());
         if (entrypoints.isEmpty()) {
             throw new IllegalArgumentException("Invalid entrypoint Ids provided");
@@ -172,9 +173,11 @@ public class EntrypointServiceImpl implements EntrypointService {
             throw new IllegalArgumentException("Some of  the entrypoints are already assigned to some other flow");
         }
 
+
         entrypoints = entrypoints.stream().map(e -> {
             e.setCcId(ccId);
             e.setFlowId(flowId);
+            e.setFlowName(flowName);
             e.setStatus("ACTIVE");
             return e;
         }).collect(Collectors.toList());

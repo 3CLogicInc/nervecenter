@@ -81,8 +81,8 @@ public class EntrypointController {
     }
 
     @PutMapping("/bulk/assign/flow")
-    public void assignFlow(@RequestBody BulkOperationDto bulkOperationDto) {
-        entrypointService.assignToCallcenterAndFlow(bulkOperationDto);
+    public void assignFlow(@RequestBody BulkOperationDto bulkOperationDto, String flowName) {
+        entrypointService.assignToCallcenterAndFlow(bulkOperationDto, flowName);
     }
 
     @PutMapping("/bulk/unassign/flow")
