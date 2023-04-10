@@ -24,7 +24,7 @@ public interface EntrypointService {
 
     void unassignFromCallcenter(BulkOperationDto bulkOperationDto);
 
-    void assignToCallcenterAndFlow(BulkOperationDto bulkOperationDto);
+    void assignToCallcenterAndFlow(BulkOperationDto bulkOperationDto, String flowName);
 
     void unassignFlow(BulkOperationDto bulkOperationDto);
 
