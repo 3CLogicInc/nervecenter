@@ -25,8 +25,8 @@ public class EntrypointController {
     }
 
     @GetMapping("/flow")
-    public List<Entrypoint> getAllEntryPointsByIds(@RequestParam List<Integer> entryPointIds){
-        return entrypointService.getAllEntryPointsByIds(entryPointIds);
+    public List<Entrypoint> getAllEntryPointsByIds(@RequestParam List<Integer> ids){
+        return entrypointService.getAllEntryPointsByIds(ids);
     }
 
     @GetMapping("/flows/{flowId}")
@@ -81,8 +81,8 @@ public class EntrypointController {
     }
 
     @PutMapping("/bulk/assign/flow")
-    public void assignFlow(@RequestBody BulkOperationDto bulkOperationDto) {
-        entrypointService.assignToCallcenterAndFlow(bulkOperationDto);
+    public void assignFlow(@RequestBody BulkOperationDto bulkOperationDto, String flowName) {
+        entrypointService.assignToCallcenterAndFlow(bulkOperationDto, flowName);
     }
 
     @PutMapping("/bulk/unassign/flow")
