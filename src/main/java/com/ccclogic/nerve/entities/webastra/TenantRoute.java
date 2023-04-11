@@ -27,4 +27,12 @@ public class TenantRoute {
 
     @Column(name = "created_by")
     private Integer createdBy;
+
+    @ManyToOne
+    @JoinColumn(name = "callcenter_id", insertable = false, updatable = false)
+    Callcenter callcenter;
+
+    @ManyToOne
+    @JoinColumn(name = "route_id", insertable = false, updatable = false)
+    Route route;
 }

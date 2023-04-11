@@ -1,9 +1,6 @@
 package com.ccclogic.nerve.services.webastra;
 
-import com.ccclogic.nerve.dto.AssignUnAssignRecord;
-import com.ccclogic.nerve.dto.IdNamePair;
-import com.ccclogic.nerve.dto.RouteExceptionsDto;
-import com.ccclogic.nerve.dto.RouteRequestDto;
+import com.ccclogic.nerve.dto.*;
 import com.ccclogic.nerve.entities.webastra.Route;
 import com.ccclogic.nerve.entities.webastra.RouteExceptions;
 import com.ccclogic.nerve.entities.webastra.TenantRoute;
@@ -16,6 +13,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.stream.Collectors.*;
 
 @Service
 public class RouteService {
@@ -150,6 +149,16 @@ public class RouteService {
         }
 
         tenantRouteRepository.saveAll(tenantRoutes);
+    }
+
+    public List<TenantRouteDto> getTenantRoutes() {
+        List<TenantRoute> tenantRoutes = tenantRouteRepository.findAll();
+        return tenantRoutes.stream().collect(groupingBy(TenantRoute::getCallcenter, toSet())).entrySet().stream().map(es -> {
+            TenantRouteDto tenantRouteDto = new TenantRouteDto();
+            tenantRouteDto.setCallcenter(es.getKey());
+            tenantRouteDto.setAssignedRoutes(es.getValue().stream().map(tr -> new IdNamePair(tr.getRoute().getId(), tr.getRoute().getName())).collect(toList()));
+            return tenantRouteDto;
+        }).collect(toList());
     }
 }
 

@@ -3,6 +3,7 @@ package com.ccclogic.nerve.controller;
 
 import com.ccclogic.nerve.dto.AssignUnAssignRecord;
 import com.ccclogic.nerve.dto.IdNamePair;
+import com.ccclogic.nerve.dto.TenantRouteDto;
 import com.ccclogic.nerve.services.webastra.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,12 @@ public class TenantRouteController {
     @PutMapping("/{tenantId}/routes/assign")
     public void assignRoutesToTenant(@PathVariable Integer tenantId, @RequestBody AssignUnAssignRecord assignRecord) {
         routeService.assignRoutesToTenant(tenantId, assignRecord);
+    }
+
+
+    @PutMapping("routes")
+    public List<TenantRouteDto> getTenantRoutes() {
+        return routeService.getTenantRoutes();
     }
 
 }

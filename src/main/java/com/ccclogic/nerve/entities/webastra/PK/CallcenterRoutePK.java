@@ -14,5 +14,5 @@ public class CallcenterRoutePK implements Serializable {
 
     @Id
     @Column(name = "route_id")
-    private String routeId;
+    private Integer routeId;
 }
