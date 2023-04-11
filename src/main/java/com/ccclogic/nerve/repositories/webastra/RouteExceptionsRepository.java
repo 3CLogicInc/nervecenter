@@ -8,4 +8,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
 public interface RouteExceptionsRepository extends JpaRepository<RouteExceptions, RouteExceptionsPK>, PagingAndSortingRepository<RouteExceptions, RouteExceptionsPK> {
+
+    void removeAllByRouteId(Integer routeId);
+
+    void removeByRouteIdAndId(Integer routeId, Integer exceptionId);
 }

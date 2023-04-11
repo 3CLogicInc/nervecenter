@@ -1,8 +1,6 @@
 package com.ccclogic.nerve.entities.webastra;
 
-import com.ccclogic.nerve.entities.webastra.PK.RouteExceptionsPK;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -10,25 +8,37 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "nc_route_exceptions")
-@IdClass(RouteExceptionsPK.class)
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class RouteExceptions {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "exception_id")
-    private Integer exceptionId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
 
-    @Column(name = "route_id")
-    private String routeId;
-
-    @Column(name = "domain")
-    private String domain;
+    @Column(name = "country")
+    private String country;
 
     @Column(name = "prefix")
     private String prefix;
 
-    @Column(name = "created_at")
+    @Column(name = "route_id")
+    private Integer routeId;
+
+    @Column(name = "exception_domain_id")
+    private Integer exceptionDomainId;
+
+    @Column(name = "created_at", insertable = false, updatable = false)
     private java.sql.Timestamp createdAt;
+
+    @Column(name = "updated_at", insertable = false, updatable = false)
+    private java.sql.Timestamp updatedAt;
 
     @Column(name = "created_by")
     private Integer createdBy;
+
+    @Column(name = "updated_by")
+    private Integer updatedBy;
+
 }

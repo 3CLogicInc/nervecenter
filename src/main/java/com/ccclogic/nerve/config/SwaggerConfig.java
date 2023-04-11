@@ -14,18 +14,18 @@ public class SwaggerConfig {
 
     public static final String BEARER_AUTH = "BEARER_AUTH";
 
-    @Bean
-    public OperationCustomizer operationCustomizer() {
-        return ((operation, handlerMethod) -> {
-            operation.addParametersItem(
-                    new Parameter()
-                            .in("path")
-                            .required(false)
-                            .name("centerId"));
-
-            return operation;
-        });
-    }
+//    @Bean
+//    public OperationCustomizer operationCustomizer() {
+//        return ((operation, handlerMethod) -> {
+//            operation.addParametersItem(
+//                    new Parameter()
+//                            .in("path")
+//                            .required(false)
+//                            .name("centerId"));
+//
+//            return operation;
+//        });
+//    }
 
     @Bean
     public OpenAPI customiseOpenApi() {
