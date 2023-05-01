@@ -29,6 +29,10 @@ public class RouteExceptions {
     @Column(name = "exception_domain_id")
     private Integer exceptionDomainId;
 
+    @ManyToOne
+    @JoinColumn(name = "exception_domain_id", insertable = false, updatable = false)
+    private Domain domain;
+
     @Column(name = "created_at", insertable = false, updatable = false)
     private java.sql.Timestamp createdAt;
 

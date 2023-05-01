@@ -1,6 +1,7 @@
 package com.ccclogic.nerve.entities.webastra;
 
 import lombok.*;
+import org.hibernate.annotations.JoinFormula;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,7 +23,7 @@ public class Route {
     private String name;
 
     @Column(name = "domain")
-    private String domain;
+    private Integer domainId;
 
     @Column(name = "is_default")
     private Boolean isDefault;
@@ -41,6 +42,14 @@ public class Route {
 
     @OneToMany(mappedBy = "routeId")
     private List<RouteExceptions> routeExceptions;
+
+    @ManyToOne
+    @JoinColumn(name = "domain", insertable = false, updatable = false)
+    private Domain domain;
+
+    @ManyToOne
+    @JoinFormula(value = "(Select ncr.callcenter_id from nc_callcenter_routes ncr where ncr.route_id=id)")
+    private Callcenter callcenter;
 
 }
 

@@ -32,7 +32,7 @@ public class RouteService {
     public Route saveRoute(RouteRequestDto requestDto) {
         Route route = Route.builder()
                 .name(requestDto.getName())
-                .domain(requestDto.getDomain())
+                .domainId(requestDto.getDomainId())
                 .isDefault(requestDto.getIsDefault())
                 .createdBy(1)
                 .updatedBy(1)
@@ -75,7 +75,7 @@ public class RouteService {
         Route route = Route.builder()
                 .id(routeId)
                 .name(requestDto.getName())
-                .domain(requestDto.getDomain())
+                .domainId(requestDto.getDomainId())
                 .isDefault(requestDto.getIsDefault())
                 .updatedBy(1)
                 .build();

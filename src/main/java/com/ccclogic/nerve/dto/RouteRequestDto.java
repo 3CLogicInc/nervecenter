@@ -7,7 +7,7 @@ import java.util.List;
 @Data
 public class RouteRequestDto {
     private String name;
-    private String domain;
+    private Integer domainId;
     private Boolean isDefault;
 
     List<RouteExceptionsDto> exceptions;

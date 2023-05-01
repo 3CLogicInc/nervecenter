@@ -8,20 +8,16 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "exception_domains")
-public class ExceptionDomain {
-
+@Table(name = "nc_domains")
+public class Domain {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "id")
     private Integer id;
 
     @Column(name = "domain")
-    private String domain;
+    String domain;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", insertable = false, updatable = false)
     private java.sql.Timestamp createdAt;
-
-    @Column(name = "created_by")
-    private Integer createdBy;
 }
