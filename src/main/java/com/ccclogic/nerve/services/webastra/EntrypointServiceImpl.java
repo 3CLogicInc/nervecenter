@@ -35,14 +35,11 @@ public class EntrypointServiceImpl implements EntrypointService {
 
 
     @Override
-    public List<Entrypoint> getEntrypoints(Integer ccId, String status) {
+    public List<Entrypoint> getEntrypoints(String status) {
         String query = "select ep from Entrypoint ep where 1=1";
-        if (ccId != null) {
-            query += " AND ccid = " + ccId;
-        }
 
         if (!StringUtils.isBlank(status)) {
-            query += " AND status IN (" + status + ")";
+            query += " AND status IN (" +'\''+ status +'\''+ ")";
         }
 
         return webastraEntityManager.createQuery(query).getResultList();
