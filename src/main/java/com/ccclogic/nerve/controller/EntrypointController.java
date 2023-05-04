@@ -97,7 +97,7 @@ public class EntrypointController {
 
     @DeleteMapping("/bulk/cancel/nerve")
     public void bulkCancelEntrypointFromNerve(@RequestBody BulkOperationDto bulkOperationDto) {
-        entrypointService.unassignFlow(bulkOperationDto);
+        entrypointService.cancel(bulkOperationDto);
     }
 
     @DeleteMapping("/bulk/cancel")
