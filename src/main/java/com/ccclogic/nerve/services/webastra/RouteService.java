@@ -56,7 +56,7 @@ public class RouteService {
         for (RouteExceptionsDto routeExceptionsDto : exceptions) {
             RouteExceptions routeException = RouteExceptions.builder()
                     .routeId(routeId)
-                    .exceptionDomainId(routeExceptionsDto.getExceptionDomainId())
+                    .exceptionDomainId(routeExceptionsDto.getExceptionDomainId() == -1? null : routeExceptionsDto.getExceptionDomainId())
                     .country(routeExceptionsDto.getCountry())
                     .prefix(routeExceptionsDto.getPrefix())
                     .createdBy(1)
