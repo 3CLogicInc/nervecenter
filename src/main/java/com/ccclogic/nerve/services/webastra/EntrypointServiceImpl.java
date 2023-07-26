@@ -9,6 +9,7 @@ import com.ccclogic.nerve.repositories.webastra.EntryPointHistoryRepository;
 import com.ccclogic.nerve.repositories.webastra.EntrypointRepository;
 import com.ccclogic.nerve.util.ObjectUtil;
 import com.ccclogic.nerve.util.SecurityUtil;
+import feign.FeignException;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,9 @@ public class EntrypointServiceImpl implements EntrypointService {
 
     @Override
     public Entrypoint saveRemote(Entrypoint entryPoint) {
+        if(entrypointRepository.existsByEntrypoint(entryPoint.getEntrypoint())){
+            throw new IllegalArgumentException("Entrypoint already exists");
+        }
         entryPoint.setStatus("AVAILABLE");
 
         if (entryPoint.getFlowId() != null) {
