@@ -9,7 +9,6 @@ import com.ccclogic.nerve.repositories.webastra.EntryPointHistoryRepository;
 import com.ccclogic.nerve.repositories.webastra.EntrypointRepository;
 import com.ccclogic.nerve.util.ObjectUtil;
 import com.ccclogic.nerve.util.SecurityUtil;
-import feign.FeignException;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
