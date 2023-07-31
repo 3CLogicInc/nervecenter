@@ -26,4 +26,6 @@ public interface EntrypointRepository extends JpaRepository<Entrypoint, Integer>
     List<Entrypoint> findAllEntryPointsByFlowId(Integer flowId);
 
     List<Entrypoint> findAllByIdIn(List<Integer> entryPointIds);
+
+    boolean existsByEntrypoint(String entrypoint);
 }

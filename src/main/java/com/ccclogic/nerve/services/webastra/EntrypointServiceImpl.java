@@ -82,6 +82,9 @@ public class EntrypointServiceImpl implements EntrypointService {
 
     @Override
     public Entrypoint saveRemote(Entrypoint entryPoint) {
+        if(entrypointRepository.existsByEntrypoint(entryPoint.getEntrypoint())){
+            throw new IllegalArgumentException("Entrypoint already exists");
+        }
         entryPoint.setStatus("AVAILABLE");
 
         if (entryPoint.getFlowId() != null) {
