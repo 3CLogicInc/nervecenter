@@ -27,5 +27,6 @@ public interface EntrypointRepository extends JpaRepository<Entrypoint, Integer>
 
     List<Entrypoint> findAllByIdIn(List<Integer> entryPointIds);
 
-    boolean existsByEntrypoint(String entrypoint);
+    @Query("SELECT case when count(ep) > 0 then true else false end from Entrypoint ep where ep.entrypoint=:entrypoint and ep.channel=:channel")
+    boolean existsByEntrypointAndChannel(String entrypoint, String channel);
 }

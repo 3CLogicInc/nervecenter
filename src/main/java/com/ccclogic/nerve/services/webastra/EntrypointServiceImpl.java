@@ -82,7 +82,7 @@ public class EntrypointServiceImpl implements EntrypointService {
 
     @Override
     public Entrypoint saveRemote(Entrypoint entryPoint) {
-        if(entrypointRepository.existsByEntrypoint(entryPoint.getEntrypoint())){
+        if(entrypointRepository.existsByEntrypointAndChannel(entryPoint.getEntrypoint(), entryPoint.getChannel())){
             return entryPoint;
         }
         entryPoint.setStatus("AVAILABLE");
