@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.util.stream.Collectors.*;
@@ -100,7 +101,7 @@ public class RouteService {
     @Transactional
     public void deleteRoute(Integer routeId) {
         routeRepository.deleteById(routeId);
-        saveRouteExceptions(List.of(), routeId);
+        saveRouteExceptions(Arrays.asList(), routeId);
     }
 
 
