@@ -17,10 +17,12 @@ public class AssignUnAssignRecord {
 
 
     public List<Integer> getAssign() {
+
         return ObjectUtils.defaultIfNull(assign, new ArrayList<>());
     }
 
     public void setAssign(List<Integer> assign) {
+
         this.assign = assign;
     }
 
@@ -29,6 +31,7 @@ public class AssignUnAssignRecord {
     }
 
     public void setUnassign(List<Integer> unassign) {
+
         this.unassign = unassign;
     }
 }
