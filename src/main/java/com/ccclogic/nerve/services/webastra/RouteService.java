@@ -105,12 +105,63 @@ public class RouteService {
     }
 
 
-    public List<Route> getRoutes() {
-        return routeRepository.findAll();
+    public List<RouteCallcenterDto> getRoutes() {
+        List<Route> routes =  routeRepository.findAll();
+
+        List<RouteCallcenterDto> routeCallcenterDtoList = new ArrayList<>();
+
+        for(Route r : routes){
+            RouteCallcenterDto routeCallcenterDto = new RouteCallcenterDto();
+            List<AssignedCallcenterInterface> callcenters = tenantRouteRepository.findAllCallcenterByRouteId(r.getId());
+            routeCallcenterDto.setId(r.getId());
+            routeCallcenterDto.setName(r.getName());
+            routeCallcenterDto.setDomainId(r.getDomainId());
+            routeCallcenterDto.setIsDefault(r.getIsDefault());
+            routeCallcenterDto.setCreatedAt(r.getCreatedAt());
+            routeCallcenterDto.setUpdatedAt(r.getUpdatedAt());
+            routeCallcenterDto.setRouteExceptions(r.getRouteExceptions());
+
+            List<AssignedCallcenterDto> assignedCallcenterDtoList = new ArrayList<>();
+            map(callcenters, assignedCallcenterDtoList);
+            routeCallcenterDto.setAssignedCallcenters(assignedCallcenterDtoList);
+
+            routeCallcenterDtoList.add(routeCallcenterDto);
+        }
+        return routeCallcenterDtoList;
     }
 
-    public Route getRouteById(Integer routeId) {
-        return routeRepository.findById(routeId).orElseThrow(() -> new IllegalArgumentException("Route not found"));
+    private void map(List<AssignedCallcenterInterface> callcenters, List<AssignedCallcenterDto> assignedCallcenterDtoList) {
+        for(int i = 0; i < callcenters.size(); i++ ){
+            AssignedCallcenterDto assignedCallcenterDto = new AssignedCallcenterDto();
+            assignedCallcenterDto.setId(callcenters.get(i).getId());
+            assignedCallcenterDto.setName(callcenters.get(i).getName());
+            assignedCallcenterDto.setOwner(callcenters.get(i).getOwner());
+            assignedCallcenterDto.setDemo(callcenters.get(i).getIs_demo());
+            assignedCallcenterDto.setStatus(callcenters.get(i).getStatus());
+            assignedCallcenterDto.setRelease(callcenters.get(i).getRelease());
+
+            assignedCallcenterDtoList.add(assignedCallcenterDto);
+        }
+    }
+
+    public RouteCallcenterDto getRouteById(Integer routeId) {
+        Route route =  routeRepository.findById(routeId).orElseThrow(() -> new IllegalArgumentException("Route not found"));
+
+        RouteCallcenterDto routeCallcenterDto = new RouteCallcenterDto();
+        List<AssignedCallcenterInterface> callcenters = tenantRouteRepository.findAllCallcenterByRouteId(route.getId());
+        routeCallcenterDto.setId(route.getId());
+        routeCallcenterDto.setName(route.getName());
+        routeCallcenterDto.setDomainId(route.getDomainId());
+        routeCallcenterDto.setIsDefault(route.getIsDefault());
+        routeCallcenterDto.setCreatedAt(route.getCreatedAt());
+        routeCallcenterDto.setUpdatedAt(route.getUpdatedAt());
+        routeCallcenterDto.setRouteExceptions(route.getRouteExceptions());
+
+        List<AssignedCallcenterDto> assignedCallcenterDtoList = new ArrayList<>();
+        map(callcenters, assignedCallcenterDtoList);
+        routeCallcenterDto.setAssignedCallcenters(assignedCallcenterDtoList);
+
+        return  routeCallcenterDto;
     }
 
     @Transactional
