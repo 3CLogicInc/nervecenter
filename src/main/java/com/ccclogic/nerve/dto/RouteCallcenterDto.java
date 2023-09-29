@@ -16,5 +16,5 @@ public class RouteCallcenterDto {
     private java.sql.Timestamp createdAt;;
     private java.sql.Timestamp updatedAt;
     private List<RouteExceptions> routeExceptions;
-    private List<AssignedCallcenterDto> assignedCallcenters;
+    private List<AssignedCallcenterInterface> assignedCallcenters;
 }

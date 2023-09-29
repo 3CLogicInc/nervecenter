@@ -120,28 +120,11 @@ public class RouteService {
             routeCallcenterDto.setCreatedAt(r.getCreatedAt());
             routeCallcenterDto.setUpdatedAt(r.getUpdatedAt());
             routeCallcenterDto.setRouteExceptions(r.getRouteExceptions());
-
-            List<AssignedCallcenterDto> assignedCallcenterDtoList = new ArrayList<>();
-            map(callcenters, assignedCallcenterDtoList);
-            routeCallcenterDto.setAssignedCallcenters(assignedCallcenterDtoList);
+            routeCallcenterDto.setAssignedCallcenters(callcenters);
 
             routeCallcenterDtoList.add(routeCallcenterDto);
         }
         return routeCallcenterDtoList;
-    }
-
-    private void map(List<AssignedCallcenterInterface> callcenters, List<AssignedCallcenterDto> assignedCallcenterDtoList) {
-        for(int i = 0; i < callcenters.size(); i++ ){
-            AssignedCallcenterDto assignedCallcenterDto = new AssignedCallcenterDto();
-            assignedCallcenterDto.setId(callcenters.get(i).getId());
-            assignedCallcenterDto.setName(callcenters.get(i).getName());
-            assignedCallcenterDto.setOwner(callcenters.get(i).getOwner());
-            assignedCallcenterDto.setDemo(callcenters.get(i).getIs_demo());
-            assignedCallcenterDto.setStatus(callcenters.get(i).getStatus());
-            assignedCallcenterDto.setRelease(callcenters.get(i).getRelease());
-
-            assignedCallcenterDtoList.add(assignedCallcenterDto);
-        }
     }
 
     public RouteCallcenterDto getRouteById(Integer routeId) {
@@ -156,10 +139,7 @@ public class RouteService {
         routeCallcenterDto.setCreatedAt(route.getCreatedAt());
         routeCallcenterDto.setUpdatedAt(route.getUpdatedAt());
         routeCallcenterDto.setRouteExceptions(route.getRouteExceptions());
-
-        List<AssignedCallcenterDto> assignedCallcenterDtoList = new ArrayList<>();
-        map(callcenters, assignedCallcenterDtoList);
-        routeCallcenterDto.setAssignedCallcenters(assignedCallcenterDtoList);
+        routeCallcenterDto.setAssignedCallcenters(callcenters);
 
         return  routeCallcenterDto;
     }

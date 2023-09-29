@@ -47,10 +47,6 @@ public class Route {
     @JoinColumn(name = "domain", insertable = false, updatable = false)
     private Domain domain;
 
-    @ManyToOne
-    @JoinFormula(value = "(Select ncr.callcenter_id from nc_callcenter_routes ncr where ncr.route_id=id limit 1)")
-    private Callcenter callcenter;
-
 }
 
 
