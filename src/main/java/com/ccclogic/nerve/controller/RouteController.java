@@ -3,6 +3,7 @@ package com.ccclogic.nerve.controller;
 import com.ccclogic.nerve.dto.RouteCallcenterDto;
 import com.ccclogic.nerve.dto.RouteRequestDto;
 import com.ccclogic.nerve.entities.webastra.Route;
+import com.ccclogic.nerve.services.kafka.KafkaEventProducer;
 import com.ccclogic.nerve.services.webastra.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,9 @@ public class RouteController {
 
     @Autowired
     RouteService routeService;
+
+    @Autowired
+    KafkaEventProducer kafkaEventProducer;
 
     @PostMapping
     public Route saveRoute(@RequestBody RouteRequestDto routeRequestDto) {
@@ -49,6 +53,13 @@ public class RouteController {
     @DeleteMapping("/{routeId}/exceptions/{exceptionId}")
     public void deleteRouteException(@PathVariable Integer routeId, @PathVariable Integer exceptionId) {
         routeService.deleteRouteExceptions(routeId, exceptionId);
+    }
+
+    @PostMapping("/postEvent")
+    public void postEvent() {
+       // Integer primaryEntityId = routeRequestDto.getPrimaryEntityId();
+       // AssignUnAssignRecord record = routeRequestDto.getAssignUnAssignRecord();
+        kafkaEventProducer.postAeEvent("ROUTES","CALLCENTER");
     }
 
 }
