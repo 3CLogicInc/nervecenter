@@ -119,6 +119,7 @@ public class RouteService {
             routeCallcenterDto.setIsDefault(r.getIsDefault());
             routeCallcenterDto.setCreatedAt(r.getCreatedAt());
             routeCallcenterDto.setUpdatedAt(r.getUpdatedAt());
+            routeCallcenterDto.setDomain(r.getDomain());
             routeCallcenterDto.setRouteExceptions(r.getRouteExceptions());
             routeCallcenterDto.setAssignedCallcenters(callcenters);
 
@@ -138,6 +139,7 @@ public class RouteService {
         routeCallcenterDto.setIsDefault(route.getIsDefault());
         routeCallcenterDto.setCreatedAt(route.getCreatedAt());
         routeCallcenterDto.setUpdatedAt(route.getUpdatedAt());
+        routeCallcenterDto.setDomain(route.getDomain());
         routeCallcenterDto.setRouteExceptions(route.getRouteExceptions());
         routeCallcenterDto.setAssignedCallcenters(callcenters);
 
