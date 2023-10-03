@@ -1,6 +1,7 @@
 package com.ccclogic.nerve.repositories.webastra;
 
 import com.ccclogic.nerve.dto.AssignedCallcenterDto;
+import com.ccclogic.nerve.dto.AssignedCallcenterInterface;
 import com.ccclogic.nerve.dto.IdNamePair;
 import com.ccclogic.nerve.entities.webastra.TenantRoute;
 import com.ccclogic.nerve.entities.webastra.PK.CallcenterRoutePK;
@@ -27,4 +28,7 @@ public interface TenantRouteRepository extends JpaRepository<TenantRoute, Callce
 
     @Query(value = "Select cc.id, cc.name, cc.owner, cc.is_demo, cc.status, cc.`release` from callcenters cc left join nc_callcenter_routes ncr ON cc.id = ncr.callcenter_id where ncr.route_id= :routeId", nativeQuery = true)
     List<AssignedCallcenterDto> findByRouteId(long routeId);
+
+    @Query(value = "Select cc.id, cc.name, cc.owner, cc.is_demo, cc.status, cc.`release` from callcenters cc left join nc_callcenter_routes ncr ON cc.id = ncr.callcenter_id where ncr.route_id= :routeId", nativeQuery = true)
+    List<AssignedCallcenterInterface> findAllCallcenterByRouteId(Integer routeId);
 }

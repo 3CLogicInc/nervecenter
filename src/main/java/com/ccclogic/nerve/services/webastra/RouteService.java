@@ -105,12 +105,43 @@ public class RouteService {
     }
 
 
-    public List<Route> getRoutes() {
-        return routeRepository.findAll();
+    public List<RouteCallcenterDto> getRoutes() {
+        List<Route> routes =  routeRepository.findAll();
+
+        List<RouteCallcenterDto> routeCallcenterDtoList = new ArrayList<>();
+
+        for(Route r : routes){
+            RouteCallcenterDto routeCallcenterDto = new RouteCallcenterDto();
+            List<AssignedCallcenterInterface> callcenters = tenantRouteRepository.findAllCallcenterByRouteId(r.getId());
+            routeCallcenterDto.setId(r.getId());
+            routeCallcenterDto.setName(r.getName());
+            routeCallcenterDto.setDomainId(r.getDomainId());
+            routeCallcenterDto.setIsDefault(r.getIsDefault());
+            routeCallcenterDto.setCreatedAt(r.getCreatedAt());
+            routeCallcenterDto.setUpdatedAt(r.getUpdatedAt());
+            routeCallcenterDto.setRouteExceptions(r.getRouteExceptions());
+            routeCallcenterDto.setAssignedCallcenters(callcenters);
+
+            routeCallcenterDtoList.add(routeCallcenterDto);
+        }
+        return routeCallcenterDtoList;
     }
 
-    public Route getRouteById(Integer routeId) {
-        return routeRepository.findById(routeId).orElseThrow(() -> new IllegalArgumentException("Route not found"));
+    public RouteCallcenterDto getRouteById(Integer routeId) {
+        Route route =  routeRepository.findById(routeId).orElseThrow(() -> new IllegalArgumentException("Route not found"));
+
+        RouteCallcenterDto routeCallcenterDto = new RouteCallcenterDto();
+        List<AssignedCallcenterInterface> callcenters = tenantRouteRepository.findAllCallcenterByRouteId(route.getId());
+        routeCallcenterDto.setId(route.getId());
+        routeCallcenterDto.setName(route.getName());
+        routeCallcenterDto.setDomainId(route.getDomainId());
+        routeCallcenterDto.setIsDefault(route.getIsDefault());
+        routeCallcenterDto.setCreatedAt(route.getCreatedAt());
+        routeCallcenterDto.setUpdatedAt(route.getUpdatedAt());
+        routeCallcenterDto.setRouteExceptions(route.getRouteExceptions());
+        routeCallcenterDto.setAssignedCallcenters(callcenters);
+
+        return  routeCallcenterDto;
     }
 
     @Transactional
