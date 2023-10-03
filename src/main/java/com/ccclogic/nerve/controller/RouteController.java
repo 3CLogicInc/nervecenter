@@ -1,5 +1,6 @@
 package com.ccclogic.nerve.controller;
 
+import com.ccclogic.nerve.dto.RouteCallcenterDto;
 import com.ccclogic.nerve.dto.RouteRequestDto;
 import com.ccclogic.nerve.entities.webastra.Route;
 import com.ccclogic.nerve.services.webastra.RouteService;
@@ -31,12 +32,12 @@ public class RouteController {
     }
 
     @GetMapping("/{routeId}")
-    public Route getRoute(@PathVariable Integer routeId) {
+    public RouteCallcenterDto getRoute(@PathVariable Integer routeId) {
         return routeService.getRouteById(routeId);
     }
 
     @GetMapping
-    public List<Route> getRoutes() {
+    public List<RouteCallcenterDto> getRoutes() {
         return routeService.getRoutes();
     }
 
