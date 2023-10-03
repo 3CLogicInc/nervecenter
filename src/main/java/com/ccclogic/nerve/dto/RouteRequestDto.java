@@ -10,8 +10,8 @@ public class RouteRequestDto {
     private Integer domainId;
     private Boolean isDefault;
 
-    private Integer primaryEntityId;
-    private AssignUnAssignRecord assignUnAssignRecord;
+//    private Integer primaryEntityId;
+//    private AssignUnAssignRecord assignUnAssignRecord;
 
     List<RouteExceptionsDto> exceptions;
 }

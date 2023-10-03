@@ -1,12 +1,10 @@
 package com.ccclogic.nerve.controller;
 
-import com.ccclogic.nerve.dto.AssignUnAssignRecord;
 import com.ccclogic.nerve.dto.RouteRequestDto;
 import com.ccclogic.nerve.entities.webastra.Route;
 import com.ccclogic.nerve.services.kafka.KafkaEventProducer;
 import com.ccclogic.nerve.services.webastra.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,11 +55,10 @@ public class RouteController {
     }
 
     @PostMapping("/postEvent")
-    public void postEvent(@RequestBody RouteRequestDto routeRequestDto) {
-        Integer primaryEntityId = routeRequestDto.getPrimaryEntityId();
-        AssignUnAssignRecord record = routeRequestDto.getAssignUnAssignRecord();
-
-        kafkaEventProducer.postAeEvent(primaryEntityId, record,"ROUTES","CALLCENTER");
+    public void postEvent() {
+       // Integer primaryEntityId = routeRequestDto.getPrimaryEntityId();
+       // AssignUnAssignRecord record = routeRequestDto.getAssignUnAssignRecord();
+        kafkaEventProducer.postAeEvent("ROUTES","CALLCENTER");
     }
 
 }
