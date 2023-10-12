@@ -41,8 +41,8 @@ public class RouteController {
     }
 
     @GetMapping
-    public List<RouteCallcenterDto> getRoutes() {
-        return routeService.getRoutes();
+    public List<RouteCallcenterDto> getRoutes(@RequestParam(required = false) String filterValue) {
+        return routeService.getRoutes(filterValue);
     }
 
     @PatchMapping("/{routeId}/default")

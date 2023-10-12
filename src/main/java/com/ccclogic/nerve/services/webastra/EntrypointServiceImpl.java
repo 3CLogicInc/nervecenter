@@ -17,6 +17,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,18 +36,43 @@ public class EntrypointServiceImpl implements EntrypointService {
 
 
     @Override
-    public List<Entrypoint> getEntrypoints(Integer ccId, String status) {
-        String query = "select ep from Entrypoint ep where 1=1";
+    public List<Entrypoint> getEntrypoints(Integer ccId, String status,String filterValue) {
 
+        // Create a base query
+        String query = "SELECT ep FROM Entrypoint ep WHERE 1=1";
+
+        // Add conditions based on the parameters
         if (ccId != null) {
-            query += " AND ccid = " + ccId;
+            query += " AND ep.ccId = :ccId";
         }
 
-        if (!StringUtils.isBlank(status)) {
-            query += " AND status IN (" +'\''+ status +'\''+ ")";
+        if (status != null) {
+            query += " AND ep.status = :status";
         }
 
-        return webastraEntityManager.createQuery(query).getResultList();
+        // Create a query object
+        Query jpqlQuery = webastraEntityManager.createQuery(query, Entrypoint.class);
+
+        // Set parameter values if applicable
+        if (ccId != null) {
+            jpqlQuery.setParameter("ccId", ccId);
+        }
+
+        if (status != null) {
+            jpqlQuery.setParameter("status", status);
+        }
+
+        // Execute the query
+        List<Entrypoint> entrypoints = jpqlQuery.getResultList();
+
+        // Filter results by filterValue (if provided)
+        if (filterValue != null) {
+            filterValue = "%" + filterValue + "%";
+            entrypoints = entrypointRepository.searchByKeyword(filterValue);
+        }
+
+        return entrypoints;
+
     }
 
     @Override
