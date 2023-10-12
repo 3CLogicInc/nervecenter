@@ -105,25 +105,37 @@ public class RouteService {
     }
 
 
-    public List<RouteCallcenterDto> getRoutes() {
-        List<Route> routes =  routeRepository.findAll();
+    public List<RouteCallcenterDto> getRoutes(String filterValue) {
+        // Converting the filterValue to lowercase
+        final String searchTermLower = (filterValue == null) ? null : filterValue.toLowerCase();
+
+        List<Route> routes = routeRepository.findAll();
 
         List<RouteCallcenterDto> routeCallcenterDtoList = new ArrayList<>();
 
-        for(Route r : routes){
+        for (Route r : routes) {
             RouteCallcenterDto routeCallcenterDto = new RouteCallcenterDto();
             List<AssignedCallcenterInterface> callcenters = tenantRouteRepository.findAllCallcenterByRouteId(r.getId());
-            routeCallcenterDto.setId(r.getId());
-            routeCallcenterDto.setName(r.getName());
-            routeCallcenterDto.setDomainId(r.getDomainId());
-            routeCallcenterDto.setIsDefault(r.getIsDefault());
-            routeCallcenterDto.setCreatedAt(r.getCreatedAt());
-            routeCallcenterDto.setUpdatedAt(r.getUpdatedAt());
-            routeCallcenterDto.setDomain(r.getDomain());
-            routeCallcenterDto.setRouteExceptions(r.getRouteExceptions());
-            routeCallcenterDto.setAssignedCallcenters(callcenters);
 
-            routeCallcenterDtoList.add(routeCallcenterDto);
+            // Converting route name to lowercase
+            String routeNameLower = r.getName().toLowerCase();
+
+            if (searchTermLower == null ||
+                    routeNameLower.contains(searchTermLower) ||
+                    callcenters.stream().anyMatch(callcenter -> callcenter.getName().toLowerCase().contains(searchTermLower))) {
+
+                routeCallcenterDto.setId(r.getId());
+                routeCallcenterDto.setName(r.getName());
+                routeCallcenterDto.setDomainId(r.getDomainId());
+                routeCallcenterDto.setIsDefault(r.getIsDefault());
+                routeCallcenterDto.setCreatedAt(r.getCreatedAt());
+                routeCallcenterDto.setUpdatedAt(r.getUpdatedAt());
+                routeCallcenterDto.setDomain(r.getDomain());
+                routeCallcenterDto.setRouteExceptions(r.getRouteExceptions());
+                routeCallcenterDto.setAssignedCallcenters(callcenters);
+
+                routeCallcenterDtoList.add(routeCallcenterDto);
+            }
         }
         return routeCallcenterDtoList;
     }

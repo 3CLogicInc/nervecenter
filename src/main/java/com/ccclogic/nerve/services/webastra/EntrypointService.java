@@ -8,7 +8,7 @@ import com.ccclogic.nerve.entities.webastra.Entrypoint;
 import java.util.List;
 
 public interface EntrypointService {
-    List<Entrypoint> getEntrypoints(Integer ccId, String status);
+    List<Entrypoint> getEntrypoints(Integer ccId, String status,String filterValue);
 
     Entrypoint getEntrypointById(Integer entrypointId);
 

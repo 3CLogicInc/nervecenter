@@ -4,6 +4,7 @@ import com.ccclogic.nerve.entities.webastra.Entrypoint;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
@@ -29,4 +30,12 @@ public interface EntrypointRepository extends JpaRepository<Entrypoint, Integer>
 
     @Query("SELECT case when count(ep) > 0 then true else false end from Entrypoint ep where ep.entrypoint=:entrypoint and ep.channel=:channel")
     boolean existsByEntrypointAndChannel(String entrypoint, String channel);
+
+    @Query("SELECT e FROM Entrypoint e " +
+            "LEFT JOIN e.callcenter c " +
+            "WHERE " +
+            "   LOWER(e.entrypoint) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "   LOWER(e.channel) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "   LOWER(c.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<Entrypoint> searchByKeyword(@Param("keyword") String keyword);
 }
