@@ -38,4 +38,13 @@ public interface EntrypointRepository extends JpaRepository<Entrypoint, Integer>
             "   LOWER(e.channel) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "   LOWER(c.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Entrypoint> searchByKeyword(@Param("keyword") String keyword);
+
+    @Query("SELECT e FROM Entrypoint e " +
+            "LEFT JOIN e.callcenter c " +
+            "WHERE " +
+            "   (LOWER(e.entrypoint) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "   LOWER(e.channel) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "   LOWER(c.name) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
+            "AND e.status = :status")
+    List<Entrypoint> searchByKeywordAndStatus(@Param("keyword") String keyword, @Param("status") String status);
 }

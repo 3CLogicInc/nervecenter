@@ -36,18 +36,17 @@ public class EntrypointServiceImpl implements EntrypointService {
 
 
     @Override
-    public List<Entrypoint> getEntrypoints(Integer ccId, String status,String filterValue) {
-
+    public List<Entrypoint> getEntrypoints(Integer ccId, String status, String filter_value) {
         // Create a base query
-        String query = "SELECT ep FROM Entrypoint ep WHERE 1=1";
+        String query = "SELECT e FROM Entrypoint e WHERE 1=1";
 
         // Add conditions based on the parameters
         if (ccId != null) {
-            query += " AND ep.ccId = :ccId";
+            query += " AND e.ccId = :ccId";
         }
 
-        if (status != null) {
-            query += " AND ep.status = :status";
+        if (status != null && !status.isEmpty()) {
+            query += " AND e.status = :status";
         }
 
         // Create a query object
@@ -58,7 +57,7 @@ public class EntrypointServiceImpl implements EntrypointService {
             jpqlQuery.setParameter("ccId", ccId);
         }
 
-        if (status != null) {
+        if (status != null && !status.isEmpty()) {
             jpqlQuery.setParameter("status", status);
         }
 
@@ -66,9 +65,20 @@ public class EntrypointServiceImpl implements EntrypointService {
         List<Entrypoint> entrypoints = jpqlQuery.getResultList();
 
         // Filter results by filterValue (if provided)
-        if (filterValue != null) {
-            filterValue = "%" + filterValue + "%";
-            entrypoints = entrypointRepository.searchByKeyword(filterValue);
+        if (filter_value != null && !filter_value.isEmpty()) {
+            if (status != null && !status.isEmpty()) {
+                // Both status and filterValue provided
+                List<Entrypoint> filteredByStatusAndKeyword = entrypointRepository.searchByKeywordAndStatus("%" + filter_value + "%", status);
+                if (!filteredByStatusAndKeyword.isEmpty()) {
+                    return filteredByStatusAndKeyword;
+                }
+            } else {
+                // Only filterValue provided
+                List<Entrypoint> filteredByKeyword = entrypointRepository.searchByKeyword("%" + filter_value + "%");
+                if (!filteredByKeyword.isEmpty()) {
+                    return filteredByKeyword;
+                }
+            }
         }
 
         return entrypoints;
