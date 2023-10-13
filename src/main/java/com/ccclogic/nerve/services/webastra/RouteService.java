@@ -107,7 +107,7 @@ public class RouteService {
 
     public List<RouteCallcenterDto> getRoutes(String filterValue) {
         // Converting the filterValue to lowercase
-        final String searchTermLower = (filterValue == null) ? null : filterValue.toLowerCase();
+        final String searchTermLower = (filterValue == null || filterValue.isEmpty()) ? null : filterValue.toLowerCase();
 
         List<Route> routes = routeRepository.findAll();
 
@@ -120,7 +120,7 @@ public class RouteService {
             // Converting route name to lowercase
             String routeNameLower = r.getName().toLowerCase();
 
-            if (searchTermLower == null ||
+            if (searchTermLower == null || searchTermLower.isEmpty() ||
                     routeNameLower.contains(searchTermLower) ||
                     callcenters.stream().anyMatch(callcenter -> callcenter.getName().toLowerCase().contains(searchTermLower))) {
 

@@ -21,8 +21,8 @@ public class EntrypointController {
     @GetMapping
     public List<Entrypoint> getAllEntrypoints(@RequestParam(value = "ccId", required = false) Integer ccId,
                                               @RequestParam(value = "status", required = false) String status,
-                                              @RequestParam(value="filterValue", required = false) String filterValue) {
-        return entrypointService.getEntrypoints(ccId, status, filterValue);
+                                              @RequestParam(value="filter_value", required = false) String filter_value) {
+        return entrypointService.getEntrypoints(ccId, status, filter_value);
     }
 
     @GetMapping("/flow")
