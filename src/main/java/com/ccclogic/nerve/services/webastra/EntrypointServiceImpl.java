@@ -302,6 +302,7 @@ public class EntrypointServiceImpl implements EntrypointService {
         List<Entrypoint> entrypoints = entrypointRepository.findAllByCcIdAndFlowIdAndStatusNot(ccId, flowId, EntrypointStatus.CANCELLED.name());
         entrypoints = entrypoints.stream().map(entrypoint -> {
             entrypoint.setFlowId(null);
+            entrypoint.setFlowName(null);
             entrypoint.setStatus(EntrypointStatus.AVAILABLE.name());
             return entrypoint;
         }).collect(Collectors.toList());
