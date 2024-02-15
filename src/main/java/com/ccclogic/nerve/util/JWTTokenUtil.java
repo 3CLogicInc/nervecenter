@@ -58,7 +58,7 @@ public class JWTTokenUtil {
 
     private static ModelUser getUserFromToken(String token, Boolean isAccessToken) throws IllegalAccessException, ExpiredJwtException {
         if (StringUtils.isBlank(token)) throw new IllegalAccessException("OAuth Token not found");
-        logger.debug("OAuth Token : {}", token);
+        System.out.println("OAuth Token :" + " " + token);
         // parse the token.
         Jws jws = Jwts.parser()
                 .setSigningKey(JWT_SECRET.getBytes(StandardCharsets.UTF_8))

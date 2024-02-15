@@ -216,7 +216,7 @@ public class GlobalErrorHandler {
 	}
 
 	protected String getErrorJson(HttpServletRequest request, ErrorResponse response, Throwable e){
-		logger.error(e.getMessage(), e);
+		System.out.println(e.getMessage() + " " + e);
 		if(response == null){
 			if( !StringUtil.isValid( e.getMessage() )){
 				response = new ErrorResponse(GenericErrorCodes.unknowError, errorCodeMessages.getMessage(GenericErrorCodes.unknowError));

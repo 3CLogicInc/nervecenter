@@ -21,16 +21,16 @@ public class ResponseGeneratorFactory {
         if (response instanceof List || response instanceof Set) {
             response = getResponseEntityFromCollection(response, fields);
         } else if (response instanceof Page) {
-            logger.debug("I am instance of page, I should be marked accordingly");
+            System.out.println("I am instance of page, I should be marked accordingly");
             response = getResponseEntityFromPage(response, fields);
         } else if (response instanceof EntityApiResponse) {
-            logger.debug("I am instance of EntityApiResponse, I should be presented accordingly");
+            System.out.println("I am instance of EntityApiResponse, I should be presented accordingly");
             response = new ResponseEntity(response, HttpStatus.OK);
         } else if (response instanceof ResponseEntity) {
-            logger.debug("I am instance of ResponseEntity, I should be presented accordingly");
+            System.out.println("I am instance of ResponseEntity, I should be presented accordingly");
             response = getResponseEntityFromResponseEntity(response, fields);
         } else if(response instanceof TreeMap || response instanceof String) {
-            logger.debug("I am instance of TreeMap, I should be presented as it is");
+            System.out.println("I am instance of TreeMap, I should be presented as it is");
             return response;
         } else {
             response = getResponseEntityFromEntity(response, fields);

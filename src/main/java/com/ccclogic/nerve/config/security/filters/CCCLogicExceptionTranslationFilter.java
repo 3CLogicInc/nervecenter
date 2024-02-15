@@ -16,7 +16,7 @@ public class CCCLogicExceptionTranslationFilter extends OncePerRequestFilter{
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		filterChain.doFilter(request, response);
-		logger.debug("Chain processed normally");
+		System.out.println("Chain processed normally");
 	}
 
 }

@@ -71,7 +71,7 @@ public class JsonUtil {
 		}catch (JsonParseException e){
 			return false;
 		}catch (IOException e){
-			logger.error("Error while parsing json");
+			System.out.println("Error while parsing json");
 			throw new IOException();
 		}
 	}
