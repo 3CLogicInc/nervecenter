@@ -11,8 +11,6 @@ import com.ccclogic.nerve.util.errorcodes.AuthenticationErrorCodes;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,7 +24,6 @@ public class OAuthAuthenticationProvider implements AuthenticationProvider {
 
 //    private RoleService roleService;
 //    private CallCenterService callcenterService;
-    private Logger logger = LoggerFactory.getLogger(OAuthAuthenticationProvider.class);
 
 //    public OAuthAuthenticationProvider(RoleService roleService, CallCenterService callcenterService) {
 //        this.roleService = roleService;
@@ -50,7 +47,7 @@ public class OAuthAuthenticationProvider implements AuthenticationProvider {
         } catch (AccessDeniedException e) {
             throw new AccessDeniedException(e.getMessage());
         } catch (Exception e) {
-            logger.debug("Exception occurred while preparing authentication : ", e);
+            System.out.println("Exception occurred while preparing authentication : " + e);
             throw new ServiceException("Error while preparing authentication");
         }
         return authAuthenticationToken;

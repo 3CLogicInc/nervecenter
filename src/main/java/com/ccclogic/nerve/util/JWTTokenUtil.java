@@ -1,6 +1,5 @@
 package com.ccclogic.nerve.util;
 
-
 import com.ccclogic.nerve.config.security.ModelUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -9,8 +8,6 @@ import io.jsonwebtoken.Jwts;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -27,8 +24,6 @@ public class JWTTokenUtil {
     private static String BEARER_TOKEN_KEY = "Bearer";
     //// TODO: 1/11/18  Only Temporary, should come from properties file
     private static String JWT_SECRET = "UQIbGGWIeQ";
-
-    private static Logger logger = LoggerFactory.getLogger(JWTTokenUtil.class);
 
     public static Optional<String> getTokenFromHeader(HttpServletRequest request) {
         Map<String, String> requestHeaders = getHeadersInfo(request);
@@ -58,7 +53,7 @@ public class JWTTokenUtil {
 
     private static ModelUser getUserFromToken(String token, Boolean isAccessToken) throws IllegalAccessException, ExpiredJwtException {
         if (StringUtils.isBlank(token)) throw new IllegalAccessException("OAuth Token not found");
-        logger.debug("OAuth Token : {}", token);
+        System.out.println("OAuth Token : " + token);
         // parse the token.
         Jws jws = Jwts.parser()
                 .setSigningKey(JWT_SECRET.getBytes(StandardCharsets.UTF_8))

@@ -7,8 +7,6 @@ import com.ccclogic.nerve.config.security.filters.ApplicationFilter;
 import com.ccclogic.nerve.config.security.filters.CCCLogicExceptionTranslationFilter;
 import com.ccclogic.nerve.config.security.filters.OAuthAccessTokenAuthenticationFilter;
 import com.ccclogic.nerve.util.StringUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -36,8 +34,6 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private Environment env;

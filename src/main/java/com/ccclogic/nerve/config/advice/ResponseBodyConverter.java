@@ -3,8 +3,6 @@ package com.ccclogic.nerve.config.advice;
 
 import com.ccclogic.nerve.util.ResponseGeneratorFactory;
 import io.micrometer.core.instrument.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
@@ -24,7 +22,6 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ResponseBodyConverter implements ResponseBodyAdvice {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public boolean supports(MethodParameter methodParameter, Class aClass) {
@@ -34,7 +31,7 @@ public class ResponseBodyConverter implements ResponseBodyAdvice {
 
     @Override
     public Object beforeBodyWrite(Object response, MethodParameter methodParameter, MediaType mediaType, Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
-        logger.debug("rewriting response send by controller : {}", response);
+        System.out.println("rewriting response send by controller : " + response);
         HttpServletRequest servletRequest = ((ServletServerHttpRequest) serverHttpRequest).getServletRequest();
         String field = servletRequest.getParameter("fields");
         List<String> fields = new ArrayList<>();
