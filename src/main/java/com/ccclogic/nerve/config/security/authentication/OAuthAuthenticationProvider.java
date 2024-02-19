@@ -47,7 +47,7 @@ public class OAuthAuthenticationProvider implements AuthenticationProvider {
         } catch (AccessDeniedException e) {
             throw new AccessDeniedException(e.getMessage());
         } catch (Exception e) {
-            System.out.println("Exception occurred while preparing authentication :" + " " + e);
+            System.out.println("Exception occurred while preparing authentication : " + e);
             throw new ServiceException("Error while preparing authentication");
         }
         return authAuthenticationToken;
