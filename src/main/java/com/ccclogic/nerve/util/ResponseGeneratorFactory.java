@@ -4,8 +4,6 @@ import com.ccclogic.nerve.util.response.BulkEntityApiResponse;
 import com.ccclogic.nerve.util.response.EntityApiResponse;
 import com.ccclogic.nerve.util.response.ResponseFieldExtractor;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import java.util.*;
 
 public class ResponseGeneratorFactory {
-
-    private static Logger logger = LoggerFactory.getLogger(ResponseGeneratorFactory.class);
 
     public static Object generate(Object response, List<String> fields) throws IllegalAccessException {
 

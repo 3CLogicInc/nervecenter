@@ -10,8 +10,6 @@ import com.ccclogic.nerve.util.logger.Debug;
 import com.ccclogic.nerve.util.logger.Info;
 import com.fasterxml.jackson.core.JsonParseException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConversionException;
@@ -37,8 +35,6 @@ import java.util.List;
 
 @RestControllerAdvice
 public class GlobalErrorHandler {
-
-	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private ErrorCodeMessages errorCodeMessages;
