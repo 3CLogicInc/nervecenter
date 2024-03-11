@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -286,6 +287,11 @@ public class EntrypointServiceImpl implements EntrypointService {
         List<Entrypoint> entrypointCreatedOnOPS = savedEntrypoints.stream().filter(e -> e.getCreatedOn().equals("OPS")).collect(Collectors.toList());
         if(!entrypointCreatedOnOPS.isEmpty()){
             throw new IllegalArgumentException("Some entrypoints are created on OPS");
+        }
+
+        List<Entrypoint> entrypointStatusCancelled = savedEntrypoints.stream().filter(e->e.getStatus().equalsIgnoreCase("ACTIVE")).collect(Collectors.toList());
+        if(!entrypointStatusCancelled.isEmpty()){
+            return entrypointStatusCancelled;
         }
 
         List<Entrypoint> entrypointAssignedToTenant = savedEntrypoints.stream().filter(e -> e.getCcId()== null || !e.getCcId().equals(ccId)).collect(Collectors.toList());
