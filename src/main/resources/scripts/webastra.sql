@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `!-TENANT-!`.`permission` (
     `created_by` INT UNSIGNED NULL DEFAULT NULL,
     `updated_by` INT UNSIGNED NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE KEY idx_name (`name`)
+    UNIQUE KEY idx_permission_group_name (`permission_group`,`name`)
 )
 ENGINE = InnoDB DEFAULT CHARACTER SET = latin1;
 
