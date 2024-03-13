@@ -138,10 +138,10 @@ CREATE TABLE IF NOT EXISTS `!-TENANT-!`.`account_license` (
 )
 ENGINE = InnoDB DEFAULT CHARACTER SET = latin1;
 
-INSERT INTO `webastra`.`role` (id, name, heirarchy) values (1, "3C_ADMIN", 1);
-INSERT INTO `webastra`.`role` (id, name, heirarchy) values (2, "CC_ADMIN", 2);
-INSERT INTO `webastra`.`role` (id, name, heirarchy) values (3, "SUPERVISOR", 3);
-INSERT INTO `webastra`.`role` (id, name, heirarchy) values (4, "AGENT", 4);
+INSERT INTO `webastra`.`role` (id, name, hierarchy) values (1, "3C_ADMIN", 1);
+INSERT INTO `webastra`.`role` (id, name, hierarchy) values (2, "CC_ADMIN", 2);
+INSERT INTO `webastra`.`role` (id, name, hierarchy) values (3, "SUPERVISOR", 3);
+INSERT INTO `webastra`.`role` (id, name, hierarchy) values (4, "AGENT", 4);
 
 INSERT INTO `webastra`.permission (id, permission_group, name) values (1, "user", "create");
 INSERT INTO `webastra`.permission (id, permission_group, name) values (2, "user", "read");
